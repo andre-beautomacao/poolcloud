@@ -1,0 +1,6 @@
+[06-Feb-2025 13:28:14 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioID" in /home2/poolcl46/public_html/app/pages/index.php on line 8
+[06-Feb-2025 13:28:14 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioNome" in /home2/poolcl46/public_html/app/pages/index.php on line 9
+[06-Feb-2025 14:12:33 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioID" in /home2/poolcl46/public_html/app/pages/index.php on line 8
+[06-Feb-2025 14:12:33 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioNome" in /home2/poolcl46/public_html/app/pages/index.php on line 9
+[07-Feb-2025 16:46:32 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioID" in /home2/poolcl46/public_html/app/pages/index.php on line 8
+[07-Feb-2025 16:46:32 America/Fortaleza] PHP Warning:  Undefined array key "UsuarioNome" in /home2/poolcl46/public_html/app/pages/index.php on line 9

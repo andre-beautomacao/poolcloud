@@ -1,0 +1,9 @@
+<tr>
+    <td>Casa</td>
+    <td>Rua Professor Basileu Garcia</td>
+    <td>São Paulo</td>
+    <td><i class="fas fa-edit text-success pointer" title="Editar" onclick="abrirModalEndereco(7)" aria-hidden="true"></i><span class="sr-only">Editar</span></td>
+    <td><i class="fas fa-share-alt text-primary pointer" title="Compartilhar" onclick="abrirModalCompartilhar(7)" aria-hidden="true"></i><span class="sr-only">Compartilhar</span></td>
+    <td><i class="fas fa-swimming-pool text-primary pointer" title="Piscinas" onclick="listar_piscinasPost(7)" aria-hidden="true"></i><span class="sr-only">Piscinas</span></td>
+    <td><i class="fas fa-trash text-danger pointer" title="Excluir" onclick="deletar_endereco(7)" aria-hidden="true"></i><span class="sr-only">Excluir</span></td>
+</tr>

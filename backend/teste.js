@@ -1,0 +1,1 @@
+Dados retornados: [{"piscina_id":19,"piscina_nome":"Teste 2","endereco_nome":"Casa","last_ph":"3.00","last_cloro_livre":"3.00","last_alcalinidade":"3.00","data_leitura":"2025-01-20 13:48:00","last_ph_automatic":7,"last_orp_automatic":800,"last_temperatura_automatic":25,"last_data_leitura_automatic":"2025-01-20 15:16:51"},

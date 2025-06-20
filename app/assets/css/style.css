@@ -1,0 +1,480 @@
+/* ---------- RESET GERAL ----------- */
+body {
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+.navbar-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* resto já enviado anteriormente */
+}
+
+.navbar-flexfull {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;      /* Alinha tudo no centro verticalmente */
+    justify-content: space-between;
+    min-height: 56px;
+    height: 56px;
+    box-sizing: border-box;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+}
+
+.navbar-title-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex: 1 1 0;
+    min-width: 0;
+    z-index: 1;
+    height: 56px;
+}
+
+.navbar-title {
+    font-weight: bold;
+    font-size: 1.27em;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    line-height: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    z-index: 1;
+    height: 56px;
+}
+
+.navbar-right .nav-link, .navbar-right .dropdown, .navbar-right .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#toggleSidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    padding: 0 8px;
+    font-size: 1.5em;
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+@media (max-width: 768px) {
+    .navbar-main,
+    .navbar-flexfull,
+    .navbar-title-center,
+    .navbar-right {
+        min-height: 44px !important;
+        height: 44px !important;
+    }
+    #toggleSidebar {
+        height: 44px !important;
+        font-size: 1.25em;
+    }
+}
+
+
+/* ---------- TEMA CLARO E ESCURO ----------- */
+body.light-theme { background-color: #fff; color: #000; }
+body.dark-theme { background-color: #343a40; color: #fff; }
+
+body.light-theme .navbar, body.light-theme #sidebar-wrapper { background: #f8f9fa; color: #000; }
+body.dark-theme .navbar, body.dark-theme #sidebar-wrapper { background: #212529; color: #fff; }
+
+body.light-theme #sidebar-wrapper .list-group-item { background: #f8f9fa; color: #000; }
+body.dark-theme #sidebar-wrapper .list-group-item { background: #212529; color: #fff; }
+
+body.light-theme #sidebar-wrapper .list-group-item:hover,
+body.light-theme #sidebar-wrapper .list-group-item:focus { background: #e3e7ea; color: #222; }
+body.dark-theme #sidebar-wrapper .list-group-item:hover,
+body.dark-theme #sidebar-wrapper .list-group-item:focus { background: #343a40; color: #fff; }
+
+/* -------- SIDEBAR -------- */
+#sidebar-wrapper {
+    width: 220px;
+    min-width: 160px;
+    max-width: 320px;
+    height: 100vh;
+    overflow-y: auto;
+    background: #212529;
+    color: #fff;
+    position: relative;
+    z-index: 1100;
+}
+#sidebar-wrapper .list-group-item {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: transparent;
+    color: inherit;
+    font-size: 1.08em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+}
+#sidebar-wrapper .list-group-item:hover,
+#sidebar-wrapper .list-group-item:focus {
+    background: #343a40;
+    color: #fff;
+    cursor: pointer;
+}
+.sidebar-hidden #sidebar-wrapper { display: none !important; }
+.sidebar-hidden .container-fluid { margin-left: 0 !important; }
+
+/* Sidebar responsivo */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        position: fixed;
+        left: 0;
+        top: 56px;
+        width: 80vw;
+        min-width: 140px;
+        max-width: 320px;
+        height: calc(100vh - 56px);
+        z-index: 1040;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.13);
+    }
+    .container-fluid {
+        margin-left: 0 !important;
+        padding-left: 8px;
+    }
+}
+@media (min-width: 769px) {
+    .container-fluid {
+        margin-left: 230px !important;
+        transition: margin-left 0.3s;
+    }
+}
+
+/* -------- TABELAS E MODAIS -------- */
+.table { width: 100%; border-collapse: collapse; border: 1px solid #dee2e6; }
+.table td, .table th { border: 1px solid #dee2e6; padding: 6px !important; }
+body.light-theme .table { color: #000; }
+body.dark-theme .table { color: #fff; }
+body.light-theme .table tr:hover { background: #e9ecef; }
+body.dark-theme .table tr:hover { background: #495057; }
+.table thead th {
+    background: #f8f9fa; color: #000; border-top: none;
+}
+body.dark-theme .table thead th {
+    background: #343a40; color: #fff; border-top: none;
+}
+
+/* Modal temas */
+.modal-light { background: #fff; color: #000; }
+.modal-light .modal-content { background: #fff; color: #000; }
+.modal-dark { background: transparent !important; color: #fff; }
+.modal-dark .modal-content { background: #495057; color: #fff; }
+.modal-light .btn { background: #007bff; color: #fff; }
+.modal-dark .btn { background: #0069d9; color: #fff; }
+canvas { height: 500px; }
+
+/* Indicadores MQTT */
+.status-indicator {
+    padding: 5px 10px; font-weight: bold; border-radius: 5px;
+    display: inline-block; margin-top: 10px;
+}
+.status-indicator.connected { color: #fff; background: #28a745; }
+.status-indicator.disconnected { color: #fff; background: #dc3545; }
+
+/* Modal Blur */
+body.modal-open #conteudoPrincipal {
+    filter: blur(4px); pointer-events: none; user-select: none; transition: filter 0.3s;
+}
+.modal-backdrop { background: rgba(0,0,0,0.2) !important; }
+
+/* -------- GERAIS -------- */
+.card.h-100 { display: flex; flex-direction: column; height: 100%; }
+.card-body.d-flex { flex: 1 1 auto; display: flex; flex-direction: column; }
+.mt-auto.d-flex { min-height: 40px; }
+.status-btn {
+    width: 70px !important; min-width: 70px !important; max-width: 70px !important;
+    height: 22px !important; padding: 0 !important; font-size: 0.90em !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    pointer-events: none !important; opacity: 1 !important; border-radius: 5px !important;
+}
+
+/* -------- POOL CARDS -------- */
+.pool-card {
+    width: 100%;
+    max-width: 390px;
+    background: var(--card-bg, #fff);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-radius: 18px;
+    padding: 18px 36px 20px 36px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+body.light-theme .pool-card { background: #fff !important; }
+body.dark-theme .pool-card { background: #20232a !important; }
+
+/* Cabeçalho compacto */
+.pool-card .card-header-top {
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    margin-bottom: 0 !important;
+}
+.pool-card .card-header-top h5 {
+    font-size: 1.09rem !important;
+    margin-bottom: 0 !important;
+    line-height: 1.1 !important;
+}
+.pool-card .card-header-top span,
+.pool-card .card-header-top small {
+    font-size: 0.91rem !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    line-height: 1 !important;
+}
+
+/* Param cards (internos do pool card) */
+.param-card {
+    background: #f6f8fa; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; min-height: 75px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    margin-bottom: 0.2rem;
+}
+.param-label { font-size: 1em; color: #666; }
+.param-value { font-size: 1.6em; font-weight: bold; margin-top: 4px; }
+body.light-theme .param-card { background: #f6f8fa !important; color: #222 !important; }
+body.dark-theme .param-card { background: #23272f !important; color: #f6f8fa !important; }
+body.dark-theme .param-label { color: #ccd6e0 !important; }
+
+.digital-card {
+    background: #f3f7f5; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; min-height: 62px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+body.light-theme .digital-card { background: #f3f7f5 !important; color: #222 !important; }
+body.dark-theme .digital-card { background: #252930 !important; color: #f6f8fa !important; }
+.digital-nome { font-size: 1em; margin-bottom: 3px; }
+body.dark-theme .digital-nome { color: #ccd6e0 !important; }
+.digital-icon { font-size: 1.2em; margin-bottom: 2px; }
+.digital-status {
+    font-size: 1.06em; font-weight: 600; margin-top: 2px; padding: 1px 8px;
+    border-radius: 10px; display: inline-block;
+}
+.status-ligado { background: #c3f2c3; color: #1ca441; }
+.status-desligado { background: #eee; color: #888; }
+body.dark-theme .status-ligado { background: #1ca44126 !important; color: #6afea2 !important; }
+body.dark-theme .status-desligado { background: #444a !important; color: #bbb !important; }
+body.dark-theme .digital-icon i { color: #6afea2 !important; }
+body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !important; }
+
+/* Espaçamento para grids internos de cards (piscinas, dispositivos e endereços) */
+.parametros-row .col-4,
+.parametros-row .col-6,
+.pool-card .parametros-row > .col-6 {
+    margin-bottom: 10px;
+}
+/* Espaço nos campos de endereço (uma linha) */
+.parametros-row .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+.parametros-row .col-12:last-child {
+    margin-bottom: 0;
+}
+
+/* Remove espaço extra acima de "Entradas Digitais" */
+.fw-bold.mb-1 {
+    margin-bottom: 8px !important;
+    margin-top: 0 !important;
+}
+/* Garante que o último item não tenha espaço extra abaixo */
+.parametros-row .col-6:last-child,
+.pool-card .parametros-row > .col-6:last-child {
+    margin-bottom: 0;
+}
+
+/* -------- SWIPER E GRID RESPONSIVO -------- */
+
+/* MOBILE: Swiper puro */
+@media (max-width: 900px) {
+    .swiper-container, #swiperPiscinas, #swiperDispositivos, #swiperEnderecos {
+        position: relative;
+        width: 100vw; max-width: 100vw; min-height: 340px;
+        margin-top: 10px; overflow: visible;
+        padding-left: 0 !important; padding-right: 0 !important;
+    }
+    .swiper-slide {
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        min-height: 360px; background: none; padding: 0; margin: 0 !important;
+    }
+    .pool-card {
+        width: 100vw !important; max-width: 100vw !important;
+        border-radius: 0 !important;
+        margin: 0 !important; padding: 10px 2px 14px 2px; box-sizing: border-box !important;
+    }
+    .param-card, .digital-card {
+        min-width: 47vw; max-width: 48vw; min-height: 96px;
+        margin-bottom: 4px; border-radius: 14px; padding: 15px 0 10px 0; box-sizing: border-box;
+    }
+    .col-12, .row, .g-2, .mb-4 {
+        margin: 0 !important; padding: 0 !important;
+    }
+    /* Setas do Swiper visíveis no mobile */
+    .swiper-arrow { display: flex !important; }
+}
+
+/* DESKTOP: GRID de cards (não mais flex/swiper) */
+@media (min-width: 900px) {
+    .container-fluid, #containerPiscinas.col-12, #containerDispositivos.col-12, #containerEnderecos.col-12, #conteudoPrincipal.row,
+    .swiper-container, #swiperPiscinas, #swiperDispositivos, #swiperEnderecos {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+    }
+    /* GRID para o swiper-wrapper dos cards */
+    #piscinasWrapper.swiper-wrapper,
+    #dispositivosWrapper.swiper-wrapper,
+    #enderecosWrapper.swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 28px 18px;
+        justify-items: center;
+        align-items: stretch;
+        width: 100% !important;
+        margin: 0 auto !important;
+        box-sizing: border-box;
+        padding: 32px 0 !important;
+    }
+    #piscinasWrapper .swiper-slide,
+    #dispositivosWrapper .swiper-slide,
+    #enderecosWrapper .swiper-slide {
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: stretch;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+    }
+    #piscinasWrapper .pool-card,
+    #dispositivosWrapper .pool-card,
+    #enderecosWrapper .pool-card {
+        min-width: 320px; max-width: 370px; width: 100%;
+        margin: 0 !important; box-sizing: border-box;
+        display: flex; flex-direction: column; align-items: stretch;
+    }
+    /* Esconde as setas do swiper no desktop */
+    #btnPrevPool, #btnNextPool, #btnPrevDisp, #btnNextDisp, #btnPrevEndereco, #btnNextEndereco { display: none !important; }
+}
+
+/* Setas Swiper Mobile */
+.swiper-arrow {
+    position: absolute; top: 44px; z-index: 20; font-size: 1.7rem;
+    color: #3498db; background: transparent; border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); width: 32px; height: 32px;
+    border-radius: 50%; display: none; align-items: center; justify-content: center;
+    transition: background 0.2s; pointer-events: auto; opacity: 0.98;
+}
+.swiper-arrow-left  { left: 16px; }
+.swiper-arrow-right { right: 16px; }
+.swiper-arrow:hover, .swiper-arrow:active {
+    background: rgba(52,152,219,0.14);
+}
+@media (max-width: 600px) {
+    .swiper-arrow { font-size: 2.0rem; width: 26px; height: 26px; top: 36px; }
+    .swiper-arrow-left  { left: 8px; }
+    .swiper-arrow-right { right: 8px; }
+    .pool-card { border-radius: 0 !important; }
+}
+
+/* Garante alinhamento do menu ao canto direito */
+.navbar-right .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 180px;
+    z-index: 1050;
+}
+@media (max-width: 900px) {
+  /* Só para Locais: ocupa 100% do card */
+  .row-locais .col-12 {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    flex: 0 0 100vw !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .row-locais .param-card {
+    min-width: 95vw !important;
+    max-width: 98vw !important;
+    box-sizing: border-box;
+  }
+}
+/* Limita a largura máxima dos modais no desktop */
+.modal-dialog {
+    max-width: 470px;
+    margin: 1.7rem auto;
+    width: 100%; /* Para forçar o ajuste horizontal em telas menores */
+}
+
+@media (max-width: 600px) {
+    .modal-dialog {
+        max-width: 97vw;
+        width: 97vw;
+        margin: 10px auto;      /* Deixa o modal bem colado nas bordas */
+    }
+    .modal-content {
+        border-radius: 14px;
+        min-width: 0;
+        width: 100vw;
+        box-sizing: border-box;
+        padding: 0.8em 0.7em 0.5em 0.7em;
+    }
+    .modal-body {
+        padding: 0.7em 0.2em !important;
+    }
+    .modal-header, .modal-footer {
+        padding-left: 0.7em;
+        padding-right: 0.7em;
+    }
+}
+
+/* Limita a largura dos modais no mobile */
+@media (max-width: 600px) {
+  .modal-dialog {
+    max-width: 99vw;
+    margin: 0 auto;
+  }
+  .modal-content {
+    border-radius: 14px;
+    box-shadow: 0 3px 28px rgba(0,0,0,0.11);
+    padding: 0 0.4rem;
+  }
+  .modal-body, .modal-footer, .modal-header {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+}
+
