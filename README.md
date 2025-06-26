@@ -2,6 +2,16 @@
 
 Histórico de mudanças e atualizações no sistema PoolCloud.
 
+## [2025-06-26] 🔑 Variáveis de Ambiente
+O arquivo `backend/db_connect.php` lê os parâmetros de conexão do banco de dados das seguintes variáveis:
+
+- `DB_HOST` – endereço do servidor MySQL
+- `DB_NAME` – nome do banco de dados
+- `DB_USER` – usuário do banco de dados
+- `DB_PASS` – senha do usuário
+
+Caso não estejam definidas, serão utilizados os valores presentes no código como padrão.
+
 ---
 ## 📅 [2025-06-26] – Publicação inicial no GitHub
 - Inclusão de todo o código PHP, JavaScript e assets do sistema.
