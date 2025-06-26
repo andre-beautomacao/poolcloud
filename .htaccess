@@ -1,0 +1,4 @@
+SetEnv DB_HOST "localhost"
+SetEnv DB_NAME "poolcl46_poolcloud"
+SetEnv DB_USER "poolcl46_andresilva986"
+SetEnv DB_PASS "W2QhcgaKYL95T@5"
