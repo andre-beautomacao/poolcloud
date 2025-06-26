@@ -170,6 +170,12 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarURL('dispositivos', true);
         mostrarConteudo('containerDispositivos');
     });
+
+    // Observa o tipo do dispositivo para alternar exibição dos fieldsets
+    const tipoSelect = document.getElementById('dispositivoTipo');
+    if (tipoSelect) {
+        tipoSelect.addEventListener('change', atualizarFieldsetsPorTipo);
+    }
     
     document.getElementById('btnLeituras')?.addEventListener('click', function () {
         listar_leituras_manuais(); 
@@ -2401,6 +2407,35 @@ function limparModalDispositivo() {
     if (piscinaSelect) piscinaSelect.value = '';
 }
 
+function atualizarFieldsetsPorTipo() {
+    const tipo = document.getElementById('dispositivoTipo')?.value || '';
+    const digitalFieldset = document.getElementById('digitalFieldset');
+    const analogFieldset = document.getElementById('analogFieldset');
+    const mostrar = tipo === 'Central de monitoramento';
+
+    if (digitalFieldset) {
+        digitalFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            for (let i = 1; i <= 8; i++) {
+                const index = i < 10 ? '0' + i : i;
+                const nomeInput = document.getElementById('di' + index + '_nome');
+                const tipoSelect = document.getElementById('di' + index + '_tipo');
+                if (nomeInput) nomeInput.value = '';
+                if (tipoSelect) tipoSelect.value = '0';
+            }
+        }
+    }
+
+    if (analogFieldset) {
+        analogFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            analogFieldset.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
+}
+
 //EDIÇOES------------------------------------------------------------------------------------------------------------------------------
 function editar_endereco() {
     let id = document.querySelector('#enderecoID').value;
@@ -3025,6 +3060,8 @@ function abrirModalDispositivo(id = null) {
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
     document.querySelector('#dispositivoMac2').value = '';
+
+    atualizarFieldsetsPorTipo();
     
     // Limpa os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
@@ -3101,6 +3138,7 @@ function abrirModalDispositivo(id = null) {
                         }
     
                         carregarPiscinas(dispositivo.piscina_id);
+                        atualizarFieldsetsPorTipo();
                     }
                 } else {
                     Swal.fire('Erro', 'Dispositivo não encontrado!', 'error');
@@ -3115,8 +3153,9 @@ function abrirModalDispositivo(id = null) {
         btnCadastrar.disabled = false;
         btnAtualizar.disabled = true;
         carregarPiscinas();
+        atualizarFieldsetsPorTipo();
     }
-    
+
     // Exibe o modal
     $('#modal_dispositivo').modal('show');
 }
