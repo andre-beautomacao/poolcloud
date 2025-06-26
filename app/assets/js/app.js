@@ -2390,7 +2390,8 @@ function limparModalDispositivo() {
     document.querySelector('#dispositivoPiscinaID').value = '';
     document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
-    document.querySelector('#dispositivoModelo').value = '';
+    const modeloSelect = document.querySelector('#dispositivoModelo');
+    if (modeloSelect) modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
     document.querySelector('#dispositivoMac1').value = '';
     document.querySelector('#dispositivoMac2').value = '';
     document.querySelector('#dispositivoTempHabilitada').checked = false;
@@ -3049,6 +3050,7 @@ function abrirModalPiscina(id = null) {
     $('#modal_piscina').modal('show');
 }
 function abrirModalDispositivo(id = null) {
+<<<<<<< codex/adicionar-lógica-de-visibilidade-ao--tipo
     const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
     const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
     
@@ -3062,6 +3064,45 @@ function abrirModalDispositivo(id = null) {
     document.querySelector('#dispositivoMac2').value = '';
 
     atualizarFieldsetsPorTipo();
+=======
+    const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
+    const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
+
+    // Limpa os campos do modal principal
+    document.querySelector('#dispositivoID').value = '';
+    document.querySelector('#dispositivoPiscinaID').value = '';
+    document.querySelector('#dispositivoNome').value = '';
+    document.querySelector('#dispositivoTipo').value = '';
+    document.querySelector('#dispositivoModelo').innerHTML = '<option value="">Selecione o modelo</option>';
+    document.querySelector('#dispositivoMac1').value = '';
+    document.querySelector('#dispositivoMac2').value = '';
+
+    const modelosPorTipo = {
+        'Central de monitoramento': ['A4', 'A8', 'A16'],
+        'Gerador de cloro - Passagem': ['5L', '7L', '10L', '14L', '28L'],
+        'Gerador de cloro - Usina': ['3 kg/dia', '5 kg/dia', '12 kg/dia']
+    };
+    const tipoSelect = document.querySelector('#dispositivoTipo');
+    const modeloSelect = document.querySelector('#dispositivoModelo');
+
+    function atualizarModelos(tipo, selecionado = null) {
+        modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
+        if (modelosPorTipo[tipo]) {
+            modelosPorTipo[tipo].forEach(modelo => {
+                const opt = document.createElement('option');
+                opt.value = modelo;
+                opt.textContent = modelo;
+                if (selecionado && selecionado === modelo) {
+                    opt.selected = true;
+                }
+                modeloSelect.appendChild(opt);
+            });
+        }
+    }
+
+    tipoSelect.onchange = () => atualizarModelos(tipoSelect.value);
+    atualizarModelos(tipoSelect.value);
+>>>>>>> main
     
     // Limpa os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
@@ -3123,7 +3164,7 @@ function abrirModalDispositivo(id = null) {
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
                         document.querySelector('#dispositivoNome').value = dispositivo.nome;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
-                        document.querySelector('#dispositivoModelo').value = dispositivo.modelo;
+                        atualizarModelos(dispositivo.tipo, dispositivo.modelo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
                         document.querySelector('#dispositivoMac2').value = dispositivo.mac2;
                         // Preenche o campo do sensor de temperatura
@@ -3149,6 +3190,7 @@ function abrirModalDispositivo(id = null) {
             }
         });
     } else {
+<<<<<<< codex/adicionar-lógica-de-visibilidade-ao--tipo
         // Modo cadastro
         btnCadastrar.disabled = false;
         btnAtualizar.disabled = true;
@@ -3159,6 +3201,18 @@ function abrirModalDispositivo(id = null) {
     // Exibe o modal
     $('#modal_dispositivo').modal('show');
 }
+=======
+        // Modo cadastro
+        btnCadastrar.disabled = false;
+        btnAtualizar.disabled = true;
+        carregarPiscinas();
+        atualizarModelos(tipoSelect.value);
+    }
+    
+    // Exibe o modal
+    $('#modal_dispositivo').modal('show');
+}
+>>>>>>> main
 
 function abrirModalLeituraManual(piscinaId = null, leituraId = null) {
     // Botões
