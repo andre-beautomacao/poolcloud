@@ -1,9 +1,16 @@
 <?php
-// Definindo as configurações de conexão
-$host = 'localhost'; // Endereço do servidor
-$dbname = 'poolcl46_poolcloud'; // Nome do banco de dados
-$username = 'poolcl46_andresilva986'; // Usuário do banco de dados
-$password = 'W2QhcgaKYL95T@5'; // Senha do banco de dados (deixe vazio se for local)
+// Definindo as configurações de conexão a partir de variáveis de ambiente ou valores padrão
+$dbConfig = [
+    'host' => getenv('DB_HOST') ?: 'localhost',
+    'dbname' => getenv('DB_NAME') ?: 'poolcl46_poolcloud',
+    'username' => getenv('DB_USER') ?: 'poolcl46_andresilva986',
+    'password' => getenv('DB_PASS') ?: 'W2QhcgaKYL95T@5',
+];
+
+$host = $dbConfig['host'];
+$dbname = $dbConfig['dbname'];
+$username = $dbConfig['username'];
+$password = $dbConfig['password'];
 
 // Criando a conexão com o banco de dados usando PDO
 try {
