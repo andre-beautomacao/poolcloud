@@ -32,7 +32,11 @@ try {
                 d.di05_nome, d.di05_tipo, d.di05_status,
                 d.di06_nome, d.di06_tipo, d.di06_status,
                 d.di07_nome, d.di07_tipo, d.di07_status,
-                d.di08_nome, d.di08_tipo, d.di08_status
+                d.di08_nome, d.di08_tipo, d.di08_status,
+                d.ai01_nome, d.ai01_tipo,
+                d.ai02_nome, d.ai02_tipo,
+                d.ai03_nome, d.ai03_tipo,
+                d.ai04_nome, d.ai04_tipo
             FROM dispositivos d
             INNER JOIN piscinas p ON d.piscina_id = p.id
         ";
@@ -69,7 +73,11 @@ try {
                 d.di05_nome, d.di05_tipo, d.di05_status,
                 d.di06_nome, d.di06_tipo, d.di06_status,
                 d.di07_nome, d.di07_tipo, d.di07_status,
-                d.di08_nome, d.di08_tipo, d.di08_status
+                d.di08_nome, d.di08_tipo, d.di08_status,
+                d.ai01_nome, d.ai01_tipo,
+                d.ai02_nome, d.ai02_tipo,
+                d.ai03_nome, d.ai03_tipo,
+                d.ai04_nome, d.ai04_tipo
             FROM dispositivos d
         ";
 
