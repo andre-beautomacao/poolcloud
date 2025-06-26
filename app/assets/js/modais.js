@@ -149,7 +149,6 @@ function abrirModalDispositivo(id = null) {
     // Limpa os campos do modal principal
     document.querySelector('#dispositivoID').value = '';
     document.querySelector('#dispositivoPiscinaID').value = '';
-    document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
     document.querySelector('#dispositivoModelo').innerHTML = '<option value="">Selecione o modelo</option>';
     document.querySelector('#dispositivoMac1').value = '';
@@ -265,7 +264,6 @@ function abrirModalDispositivo(id = null) {
                         // Preenche os campos principais do dispositivo
                         document.querySelector('#dispositivoID').value = dispositivo.id;
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
-                        document.querySelector('#dispositivoNome').value = dispositivo.nome;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
                         atualizarModelos(dispositivo.tipo, dispositivo.modelo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;

@@ -9,9 +9,9 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 if ($_POST) {
     // Verifica se os campos obrigatórios foram enviados
-    if (isset($_POST['id'], $_POST['nome'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['mac2'], $_POST['piscina_id'])) {
+    if (isset($_POST['id'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['mac2'], $_POST['piscina_id'])) {
         $id = trim($_POST['id']);
-        $nome = trim($_POST['nome']);
+        $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
         $tipo = trim($_POST['tipo']);
         $modelo = trim($_POST['modelo']);
         $mac1 = trim($_POST['mac1']);
