@@ -18,6 +18,10 @@ Caso não estejam definidas, serão utilizados os valores presentes no código c
 - Telas de login/cadastro com validações e recuperação de senha.
 - Integração da biblioteca PHPMailer para envio de e-mails.
 
+## 📅 [2025-06-27] – Hash seguro de senhas
+- Sistema atualizado para utilizar `password_hash()` e `password_verify()`.
+- Adicionado script de migração `migrations/001_update_password_column.sql`.
+
 ## 📅 [2025-04-30] – Indentificado erro na renderização dos gráficos
 - Os gráficos ignoravam os dias sem leituras, renderizando os dados de forma sequencial e sem escala linear.
     -- Não houve leituras registradas no dia 4. Do dia 3, pulava diretamente para o dia 5.
@@ -60,7 +64,6 @@ Caso não estejam definidas, serão utilizados os valores presentes no código c
 
 ## 🔧 Pendente/Futuro
 - Refatorar banco de dados para aceitar múltiplos dispositivos por piscina.
-- Converter sistema para `password_hash()` ao invés de `md5`.
 - Modularizar requisições em um serviço JS reutilizável.
 
 ---
