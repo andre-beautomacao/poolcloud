@@ -10,14 +10,13 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 // Verifica se os campos obrigatórios foram enviados
 if (
-    isset($_POST['nome']) &&
     isset($_POST['tipo']) &&
     isset($_POST['modelo']) &&
     isset($_POST['mac1']) &&
     isset($_POST['mac2']) &&
     isset($_POST['piscina_id'])
 ) {
-    $nome = trim($_POST['nome']);
+    $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
     $tipo = trim($_POST['tipo']);
     $modelo = trim($_POST['modelo']);
     $mac1 = trim($_POST['mac1']);
@@ -99,6 +98,6 @@ if (
     }
 } else {
     http_response_code(400); // Requisição inválida
-    echo 'Todos os campos são obrigatórios.';
+    echo 'Campos obrigatórios ausentes.';
 }
 ?>

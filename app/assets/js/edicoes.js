@@ -107,7 +107,6 @@ function editar_piscina() {
 function editar_dispositivo() {
     // Recupera os dados principais
     let id = document.querySelector('#dispositivoID').value;
-    let nome = document.querySelector('#dispositivoNome').value;
     let tipo = document.querySelector('#dispositivoTipo').value;
     let modelo = document.querySelector('#dispositivoModelo').value;
     let mac1 = document.querySelector('#dispositivoMac1').value;
@@ -116,7 +115,7 @@ function editar_dispositivo() {
     let temp_habilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Verifica se os campos obrigatórios estão preenchidos
-    if (!id || !nome || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
+    if (!id || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
         Swal.fire('Erro!', 'Preencha todos os campos obrigatórios!', 'error');
         return;
     }
@@ -141,7 +140,6 @@ function editar_dispositivo() {
         async: true,
         data: Object.assign({
             id: id,
-            nome: nome,
             tipo: tipo,
             modelo: modelo,
             mac1: mac1,
