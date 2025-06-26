@@ -30,8 +30,12 @@ if (isset($_POST['id'])) {
             dispositivos.di04_nome, dispositivos.di04_tipo, 
             dispositivos.di05_nome, dispositivos.di05_tipo, 
             dispositivos.di06_nome, dispositivos.di06_tipo, 
-            dispositivos.di07_nome, dispositivos.di07_tipo, 
-            dispositivos.di08_nome, dispositivos.di08_tipo, 
+            dispositivos.di07_nome, dispositivos.di07_tipo,
+            dispositivos.di08_nome, dispositivos.di08_tipo,
+            dispositivos.ai01_nome, dispositivos.ai01_escala,
+            dispositivos.ai02_nome, dispositivos.ai02_escala,
+            dispositivos.ai03_nome, dispositivos.ai03_escala,
+            dispositivos.ai04_nome, dispositivos.ai04_escala,
             dispositivos.piscina_id
         FROM dispositivos
         JOIN piscinas ON dispositivos.piscina_id = piscinas.id

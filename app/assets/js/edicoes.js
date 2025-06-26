@@ -122,6 +122,7 @@ function editar_dispositivo() {
 
     // Coleta apenas os dados das entradas digitais visíveis
     let digitalInputs = {};
+    let analogInputs = {};
     for (let i = 1; i <= 16; i++) {
         let index = i < 10 ? '0' + i : i;
         const nomeEl = document.querySelector('#di' + index + '_nome');
@@ -131,6 +132,18 @@ function editar_dispositivo() {
         if (row && row.style.display === 'none') continue;
         digitalInputs['di' + index + '_nome'] = nomeEl.value;
         digitalInputs['di' + index + '_tipo'] = tipoEl.value;
+    }
+
+    // Coleta entradas analógicas visíveis
+    for (let i = 1; i <= 4; i++) {
+        let index = '0' + i;
+        const nomeEl = document.querySelector('#ai' + index + '_nome');
+        const escalaEl = document.querySelector('#ai' + index + '_escala');
+        if (!nomeEl || !escalaEl) continue;
+        const row = nomeEl.closest('.form-row');
+        if (row && row.style.display === 'none') continue;
+        analogInputs['ai' + index + '_nome'] = nomeEl.value;
+        analogInputs['ai' + index + '_escala'] = escalaEl.value;
     }
 
     // Envia os dados para o backend via AJAX
@@ -146,7 +159,7 @@ function editar_dispositivo() {
             mac2: mac2,
             piscina_id: piscina_id,
             temp_habilitada: temp_habilitada
-        }, digitalInputs),
+        }, Object.assign(digitalInputs, analogInputs)),
         success: (resultado) => {
             console.log("Resultado", resultado);
             try {

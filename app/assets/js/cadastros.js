@@ -138,6 +138,18 @@ function cadastrar_dispositivo() {
         formData.append('di' + index + '_tipo', tipoEl.value);
     }
 
+    // Adiciona as entradas analógicas visíveis
+    for (let i = 1; i <= 4; i++) {
+        const index = '0' + i;
+        const nomeEl = document.getElementById('ai' + index + '_nome');
+        const escalaEl = document.getElementById('ai' + index + '_escala');
+        if (!nomeEl || !escalaEl) continue;
+        const row = nomeEl.closest('.form-row');
+        if (row && row.style.display === 'none') continue;
+        formData.append('ai' + index + '_nome', nomeEl.value);
+        formData.append('ai' + index + '_escala', escalaEl.value);
+    }
+
     // Envia os dados para o backend
     fetch('../../backend/cadastro_dispositivo.php', {
         method: 'POST',

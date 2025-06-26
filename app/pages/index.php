@@ -444,6 +444,55 @@ include '../../includes/header.php';
                 </div>
             </div>
             </fieldset>
+
+            <!-- Entradas analógicas -->
+            <fieldset class="mb-3" id="fieldsetAnalogicas">
+            <legend>Configuração das entradas analógicas</legend>
+            <!-- AI 01 -->
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                <label for="ai01_nome">AI01 - Nome</label>
+                <input type="text" id="ai01_nome" class="form-control">
+                </div>
+                <div class="col-md-6 mb-2">
+                <label for="ai01_escala">AI01 - Escala</label>
+                <input type="text" id="ai01_escala" class="form-control" placeholder="0-10V">
+                </div>
+            </div>
+            <!-- AI 02 -->
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                <label for="ai02_nome">AI02 - Nome</label>
+                <input type="text" id="ai02_nome" class="form-control">
+                </div>
+                <div class="col-md-6 mb-2">
+                <label for="ai02_escala">AI02 - Escala</label>
+                <input type="text" id="ai02_escala" class="form-control" placeholder="0-10V">
+                </div>
+            </div>
+            <!-- AI 03 -->
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                <label for="ai03_nome">AI03 - Nome</label>
+                <input type="text" id="ai03_nome" class="form-control">
+                </div>
+                <div class="col-md-6 mb-2">
+                <label for="ai03_escala">AI03 - Escala</label>
+                <input type="text" id="ai03_escala" class="form-control" placeholder="0-10V">
+                </div>
+            </div>
+            <!-- AI 04 -->
+            <div class="form-row">
+                <div class="col-md-6 mb-2">
+                <label for="ai04_nome">AI04 - Nome</label>
+                <input type="text" id="ai04_nome" class="form-control">
+                </div>
+                <div class="col-md-6 mb-2">
+                <label for="ai04_escala">AI04 - Escala</label>
+                <input type="text" id="ai04_escala" class="form-control" placeholder="0-10V">
+                </div>
+            </div>
+            </fieldset>
             </div><!-- entradasContainer -->
         </div>
         <div class="modal-footer">
