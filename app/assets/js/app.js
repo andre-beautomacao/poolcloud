@@ -2234,6 +2234,13 @@ function cadastrar_dispositivo() {
         formData.append('di' + index + '_tipo', di_tipo);
     }
 
+    // Adiciona os campos das entradas analógicas (ai01 até ai04)
+    for (let i = 1; i <= 4; i++) {
+        const index = i < 10 ? '0' + i : i;
+        const ai_funcao = document.getElementById('ai' + index + '_funcao');
+        formData.append('ai' + index + '_funcao', ai_funcao ? ai_funcao.value : '');
+    }
+
     // Envia os dados para o backend
     fetch('../../backend/cadastro_dispositivo.php', {
         method: 'POST',
@@ -2396,9 +2403,20 @@ function limparModalDispositivo() {
         document.querySelector('#di' + index + '_tipo').value = '0';
     }
 
+    // Limpa entradas analógicas (ai01 a ai04)
+    for (let i = 1; i <= 4; i++) {
+        const index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        if (elem) elem.value = '';
+    }
+
     // Também limpa o select de piscina
     const piscinaSelect = document.querySelector('#dispositivoPiscina');
     if (piscinaSelect) piscinaSelect.value = '';
+
+    // Oculta o fieldset de entradas analógicas por padrão
+    const analogFieldset = document.getElementById('analogInputsFieldset');
+    if (analogFieldset) analogFieldset.style.display = 'none';
 }
 
 //EDIÇOES------------------------------------------------------------------------------------------------------------------------------
@@ -2532,6 +2550,14 @@ function editar_dispositivo() {
         digitalInputs['di' + index + '_tipo'] = document.querySelector('#di' + index + '_tipo').value;
     }
 
+    // Coleta os dados das entradas analógicas (ai01 até ai04)
+    let analogInputs = {};
+    for (let i = 1; i <= 4; i++) {
+        let index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        analogInputs['ai' + index + '_funcao'] = elem ? elem.value : '';
+    }
+
     // Envia os dados para o backend via AJAX
     $.ajax({
         url: '../../backend/edicao_dispositivo.php',
@@ -2546,7 +2572,7 @@ function editar_dispositivo() {
             mac2: mac2,
             piscina_id: piscina_id,
             temp_habilitada: temp_habilitada
-        }, digitalInputs),
+        }, digitalInputs, analogInputs),
         success: (resultado) => {
             console.log("Resultado", resultado);
             try {
@@ -3016,7 +3042,15 @@ function abrirModalPiscina(id = null) {
 function abrirModalDispositivo(id = null) {
     const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
     const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
-    
+
+    const analogFieldset = document.getElementById('analogInputsFieldset');
+    const tipoInput = document.getElementById('dispositivoTipo');
+    const toggleAnalog = () => {
+        if (!analogFieldset) return;
+        analogFieldset.style.display = tipoInput.value === 'Central de monitoramento' ? 'block' : 'none';
+    };
+    if (tipoInput) tipoInput.addEventListener('input', toggleAnalog);
+
     // Limpa os campos do modal principal
     document.querySelector('#dispositivoID').value = '';
     document.querySelector('#dispositivoPiscinaID').value = '';
@@ -3032,6 +3066,15 @@ function abrirModalDispositivo(id = null) {
         document.querySelector('#di' + index + '_nome').value = '';
         document.querySelector('#di' + index + '_tipo').value = '0'; // valor padrão (NA)
     }
+
+    // Limpa entradas analógicas (ai01 a ai04)
+    for (let i = 1; i <= 4; i++) {
+        let index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        if (elem) elem.value = '';
+    }
+
+    toggleAnalog();
     
     // Função para carregar as piscinas no dropdown
     function carregarPiscinas(selectedPiscinaID = null) {
@@ -3099,7 +3142,16 @@ function abrirModalDispositivo(id = null) {
                             document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
                             document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
                         }
-    
+
+                        // Preenche os campos das entradas analógicas
+                        for (let i = 1; i <= 4; i++) {
+                            let index = i < 10 ? '0' + i : i;
+                            const elem = document.querySelector('#ai' + index + '_funcao');
+                            if (elem) elem.value = dispositivo['ai' + index + '_funcao'] || '';
+                        }
+
+                        toggleAnalog();
+
                         carregarPiscinas(dispositivo.piscina_id);
                     }
                 } else {
