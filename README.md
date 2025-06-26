@@ -13,6 +13,11 @@ Histórico de mudanças e atualizações no sistema PoolCloud.
     -- Não houve leituras registradas no dia 4. Do dia 3, pulava diretamente para o dia 5.
 - Tentativa de melhoria: criar um array com todas as datas do mês.
 
+- ## 📅 [2025-05-01] – Entradas analógicas configuráveis
+- Adicionadas colunas `ai01_funcao` a `ai04_funcao` na tabela `dispositivos`.
+- Modificados modais e scripts para cadastro e edição de dispositivos.
+- Ajustados endpoints de listagem para expor os novos campos.
+
 ## 📅 [2025-04-30] – Melhoria da página de leituras
 - Criação do campo temp_habilitada na tabela dispositivos. 
 - Modificação do modal e dos phps de cadastro, listagem e edição. 

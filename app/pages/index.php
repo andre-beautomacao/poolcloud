@@ -447,6 +447,24 @@ include '../../includes/header.php';
                 </div>
             </div>
             </fieldset>
+
+            <!-- Campo: Entradas Analógicas -->
+            <fieldset id="analogInputsFieldset" class="mb-3" style="display:none;">
+            <legend>Entradas Analógicas</legend>
+            <?php for ($i = 1; $i <= 4; $i++): $idx = sprintf('%02d', $i); ?>
+            <div class="form-row">
+                <div class="col-md-12 mb-2">
+                    <label for="ai<?= $idx ?>_funcao">Entrada <?= $idx ?> - Função</label>
+                    <select id="ai<?= $idx ?>_funcao" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="Sensor de pH">Sensor de pH</option>
+                        <option value="Sensor de ORP">Sensor de ORP</option>
+                        <option value="Sensor de corrente">Sensor de corrente</option>
+                    </select>
+                </div>
+            </div>
+            <?php endfor; ?>
+            </fieldset>
         </div>
         <div class="modal-footer">
             <button id="btnCadastrarDispositivoModal" class="btn btn-success" onclick="cadastrar_dispositivo()">Cadastrar</button>

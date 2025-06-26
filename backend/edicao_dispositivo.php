@@ -39,6 +39,12 @@ if ($_POST) {
         $di08_nome = isset($_POST['di08_nome']) ? trim($_POST['di08_nome']) : '';
         $di08_tipo = isset($_POST['di08_tipo']) ? intval($_POST['di08_tipo']) : 0;
 
+        // Entradas analógicas
+        $ai01_funcao = isset($_POST['ai01_funcao']) ? trim($_POST['ai01_funcao']) : '';
+        $ai02_funcao = isset($_POST['ai02_funcao']) ? trim($_POST['ai02_funcao']) : '';
+        $ai03_funcao = isset($_POST['ai03_funcao']) ? trim($_POST['ai03_funcao']) : '';
+        $ai04_funcao = isset($_POST['ai04_funcao']) ? trim($_POST['ai04_funcao']) : '';
+
         // Prepara o SQL para atualização do dispositivo, incluindo os campos das entradas digitais.
         $stmt = $pdo->prepare("
             UPDATE dispositivos SET 
@@ -56,8 +62,12 @@ if ($_POST) {
                 di05_nome = :di05_nome, di05_tipo = :di05_tipo,
                 di06_nome = :di06_nome, di06_tipo = :di06_tipo,
                 di07_nome = :di07_nome, di07_tipo = :di07_tipo,
-                di08_nome = :di08_nome, di08_tipo = :di08_tipo
-            WHERE id = :id 
+                di08_nome = :di08_nome, di08_tipo = :di08_tipo,
+                ai01_funcao = :ai01_funcao,
+                ai02_funcao = :ai02_funcao,
+                ai03_funcao = :ai03_funcao,
+                ai04_funcao = :ai04_funcao
+            WHERE id = :id
               AND piscina_id IN (SELECT id FROM piscinas WHERE usuario_id = :usuarioID)
         ");
         $stmt->bindParam(':nome', $nome);
@@ -83,6 +93,10 @@ if ($_POST) {
         $stmt->bindParam(':di07_tipo', $di07_tipo, PDO::PARAM_INT);
         $stmt->bindParam(':di08_nome', $di08_nome);
         $stmt->bindParam(':di08_tipo', $di08_tipo, PDO::PARAM_INT);
+        $stmt->bindParam(':ai01_funcao', $ai01_funcao);
+        $stmt->bindParam(':ai02_funcao', $ai02_funcao);
+        $stmt->bindParam(':ai03_funcao', $ai03_funcao);
+        $stmt->bindParam(':ai04_funcao', $ai04_funcao);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
 
