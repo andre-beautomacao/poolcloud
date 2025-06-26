@@ -1,0 +1,7 @@
+error_log
+*.log
+.env
+vendor/
+node_modules/
+# OS files
+.DS_Store
