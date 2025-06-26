@@ -2198,19 +2198,18 @@ function cadastrar_dispositivo() {
     const dispositivoTipo = document.getElementById('dispositivoTipo').value;
     const dispositivoModelo = document.getElementById('dispositivoModelo').value;
     const mac1 = document.getElementById('dispositivoMac1').value;
-    const mac2 = document.getElementById('dispositivoMac2').value;
     const piscinaID = document.getElementById('dispositivoPiscinaID').value;
     const tempHabilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Validação dos campos principais
-    if (!dispositivoNome || !dispositivoTipo || !dispositivoModelo || !mac1 || !mac2 || !piscinaID) {
+    if (!dispositivoNome || !dispositivoTipo || !dispositivoModelo || !mac1 || !piscinaID) {
         Swal.fire('Erro!', 'Preencha todos os campos!', 'error');
         return;
     }
 
     // Validação dos endereços MAC (somente alfanuméricos com 12 caracteres)
     const macRegex = /^[0-9A-Fa-f]{12}$/;
-    if (!macRegex.test(mac1) || !macRegex.test(mac2)) {
+    if (!macRegex.test(mac1)) {
         Swal.fire('Erro!', 'Os endereços MAC devem conter apenas 12 caracteres alfanuméricos (sem separadores)!', 'error');
         return;
     }
@@ -2221,7 +2220,6 @@ function cadastrar_dispositivo() {
     formData.append('tipo', dispositivoTipo);
     formData.append('modelo', dispositivoModelo);
     formData.append('mac1', mac1);
-    formData.append('mac2', mac2);
     formData.append('piscina_id', piscinaID);
     formData.append('temp_habilitada', tempHabilitada); // ✅ Agora está no lugar certo
 
@@ -2386,7 +2384,6 @@ function limparModalDispositivo() {
     document.querySelector('#dispositivoTipo').value = '';
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
-    document.querySelector('#dispositivoMac2').value = '';
     document.querySelector('#dispositivoTempHabilitada').checked = false;
 
     // Limpa entradas digitais (di01 a di08)
@@ -2514,12 +2511,11 @@ function editar_dispositivo() {
     let tipo = document.querySelector('#dispositivoTipo').value;
     let modelo = document.querySelector('#dispositivoModelo').value;
     let mac1 = document.querySelector('#dispositivoMac1').value;
-    let mac2 = document.querySelector('#dispositivoMac2').value;
     let piscina_id = document.querySelector('#dispositivoPiscinaID').value;
     let temp_habilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Verifica se os campos obrigatórios estão preenchidos
-    if (!id || !nome || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
+    if (!id || !nome || !tipo || !modelo || !mac1 || !piscina_id) {
         Swal.fire('Erro!', 'Preencha todos os campos obrigatórios!', 'error');
         return;
     }
@@ -2543,7 +2539,6 @@ function editar_dispositivo() {
             tipo: tipo,
             modelo: modelo,
             mac1: mac1,
-            mac2: mac2,
             piscina_id: piscina_id,
             temp_habilitada: temp_habilitada
         }, digitalInputs),
@@ -3024,7 +3019,6 @@ function abrirModalDispositivo(id = null) {
     document.querySelector('#dispositivoTipo').value = '';
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
-    document.querySelector('#dispositivoMac2').value = '';
     
     // Limpa os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
@@ -3088,7 +3082,6 @@ function abrirModalDispositivo(id = null) {
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
                         document.querySelector('#dispositivoModelo').value = dispositivo.modelo;
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
-                        document.querySelector('#dispositivoMac2').value = dispositivo.mac2;
                         // Preenche o campo do sensor de temperatura
                         document.querySelector('#dispositivoTempHabilitada').checked = !!parseInt(dispositivo.temp_habilitada);
 
