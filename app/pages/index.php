@@ -305,11 +305,18 @@ include '../../includes/header.php';
             </div>
             <div class="mb-3">
             <label for="dispositivoTipo">Tipo</label>
-            <input type="text" id="dispositivoTipo" class="form-control">
+            <select id="dispositivoTipo" class="form-control">
+                <option value="">Selecione o tipo</option>
+                <option value="Central de monitoramento">Central de monitoramento</option>
+                <option value="Gerador de cloro - Passagem">Gerador de cloro - Passagem</option>
+                <option value="Gerador de cloro - Usina">Gerador de cloro - Usina</option>
+            </select>
             </div>
             <div class="mb-3">
             <label for="dispositivoModelo">Modelo</label>
-            <input type="text" id="dispositivoModelo" class="form-control">
+            <select id="dispositivoModelo" class="form-control">
+                <option value="">Selecione o modelo</option>
+            </select>
             </div>
             <div class="mb-3">
             <label for="dispositivoMac1">MAC 1</label>
@@ -325,7 +332,7 @@ include '../../includes/header.php';
             </div>
 
             <!-- Novo campo: Entradas Digitais -->
-            <fieldset class="mb-3">
+            <fieldset class="mb-3" id="digitalFieldset">
             <legend>Entradas Digitais (Defina o nome e o tipo)</legend>
             <!-- Entrada 01 -->
             <div class="form-row">

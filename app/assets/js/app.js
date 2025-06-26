@@ -164,12 +164,18 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarURL('piscinas', true);
         mostrarConteudo('containerPiscinas');
     });
-    
-    document.getElementById('btnDispositivos')?.addEventListener('click', function () {
-        listar_dispositivos();
-        atualizarURL('dispositivos', true);
-        mostrarConteudo('containerDispositivos');
-    });
+document.getElementById('btnDispositivos')?.addEventListener('click', function () {
+    listar_dispositivos();
+    atualizarURL('dispositivos', true);
+    mostrarConteudo('containerDispositivos');
+});
+
+// Observa o tipo do dispositivo para alternar exibição dos fieldsets
+const tipoSelect = document.getElementById('dispositivoTipo');
+if (tipoSelect) {
+    tipoSelect.addEventListener('change', atualizarFieldsetsPorTipo);
+}
+
     
     document.getElementById('btnLeituras')?.addEventListener('click', function () {
         listar_leituras_manuais(); 
@@ -2391,7 +2397,8 @@ function limparModalDispositivo() {
     document.querySelector('#dispositivoPiscinaID').value = '';
     document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
-    document.querySelector('#dispositivoModelo').value = '';
+    const modeloSelect = document.querySelector('#dispositivoModelo');
+    if (modeloSelect) modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
     document.querySelector('#dispositivoMac1').value = '';
     document.querySelector('#dispositivoMac2').value = '';
     document.querySelector('#dispositivoTempHabilitada').checked = false;
@@ -2417,6 +2424,64 @@ function limparModalDispositivo() {
     // Oculta o fieldset de entradas analógicas por padrão
     const analogFieldset = document.getElementById('analogInputsFieldset');
     if (analogFieldset) analogFieldset.style.display = 'none';
+}
+
+function atualizarFieldsetsPorTipo() {
+    const tipo = document.getElementById('dispositivoTipo')?.value || '';
+    const digitalFieldset = document.getElementById('digitalFieldset');
+    const analogFieldset = document.getElementById('analogFieldset');
+    const mostrar = tipo === 'Central de monitoramento';
+
+    if (digitalFieldset) {
+        digitalFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            for (let i = 1; i <= 8; i++) {
+                const index = i < 10 ? '0' + i : i;
+                const nomeInput = document.getElementById('di' + index + '_nome');
+                const tipoSelect = document.getElementById('di' + index + '_tipo');
+                if (nomeInput) nomeInput.value = '';
+                if (tipoSelect) tipoSelect.value = '0';
+            }
+        }
+    }
+
+    if (analogFieldset) {
+        analogFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            analogFieldset.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
+}
+
+function atualizarFieldsetsPorTipo() {
+    const tipo = document.getElementById('dispositivoTipo')?.value || '';
+    const digitalFieldset = document.getElementById('digitalFieldset');
+    const analogFieldset = document.getElementById('analogFieldset');
+    const mostrar = tipo === 'Central de monitoramento';
+
+    if (digitalFieldset) {
+        digitalFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            for (let i = 1; i <= 8; i++) {
+                const index = i < 10 ? '0' + i : i;
+                const nomeInput = document.getElementById('di' + index + '_nome');
+                const tipoSelect = document.getElementById('di' + index + '_tipo');
+                if (nomeInput) nomeInput.value = '';
+                if (tipoSelect) tipoSelect.value = '0';
+            }
+        }
+    }
+
+    if (analogFieldset) {
+        analogFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            analogFieldset.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
 }
 
 //EDIÇOES------------------------------------------------------------------------------------------------------------------------------
@@ -3039,6 +3104,7 @@ function abrirModalPiscina(id = null) {
     // Exibe o modal
     $('#modal_piscina').modal('show');
 }
+<<<<<<< codex/add-analog-input-configuration-to-index.php
 function abrirModalDispositivo(id = null) {
     const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
     const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
@@ -3053,12 +3119,65 @@ function abrirModalDispositivo(id = null) {
 
     // Limpa os campos do modal principal
     document.querySelector('#dispositivoID').value = '';
+=======
+
+function abrirModalDispositivo(id = null) {
+
+    const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
+    const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
+    
+    // Limpa os campos do modal principal
+    document.querySelector('#dispositivoID').value = '';
+>>>>>>> main
     document.querySelector('#dispositivoPiscinaID').value = '';
     document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
-    document.querySelector('#dispositivoMac2').value = '';
+const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
+const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
+
+// Limpa os campos do modal principal
+document.querySelector('#dispositivoID').value = '';
+document.querySelector('#dispositivoPiscinaID').value = '';
+document.querySelector('#dispositivoNome').value = '';
+document.querySelector('#dispositivoTipo').value = '';
+document.querySelector('#dispositivoModelo').innerHTML = '<option value="">Selecione o modelo</option>';
+document.querySelector('#dispositivoMac1').value = '';
+document.querySelector('#dispositivoMac2').value = '';
+
+// Atualiza os modelos disponíveis conforme tipo
+const modelosPorTipo = {
+    'Central de monitoramento': ['A4', 'A8', 'A16'],
+    'Gerador de cloro - Passagem': ['5L', '7L', '10L', '14L', '28L'],
+    'Gerador de cloro - Usina': ['3 kg/dia', '5 kg/dia', '12 kg/dia']
+};
+const tipoSelect = document.querySelector('#dispositivoTipo');
+const modeloSelect = document.querySelector('#dispositivoModelo');
+
+function atualizarModelos(tipo, selecionado = null) {
+    modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
+    if (modelosPorTipo[tipo]) {
+        modelosPorTipo[tipo].forEach(modelo => {
+            const opt = document.createElement('option');
+            opt.value = modelo;
+            opt.textContent = modelo;
+            if (selecionado && selecionado === modelo) {
+                opt.selected = true;
+            }
+            modeloSelect.appendChild(opt);
+        });
+    }
+}
+
+tipoSelect.onchange = () => atualizarModelos(tipoSelect.value);
+atualizarModelos(tipoSelect.value);
+
+// Atualiza visibilidade dos fieldsets por tipo
+if (typeof atualizarFieldsetsPorTipo === 'function') {
+    atualizarFieldsetsPorTipo();
+}
+
     
     // Limpa os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
@@ -3129,13 +3248,14 @@ function abrirModalDispositivo(id = null) {
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
                         document.querySelector('#dispositivoNome').value = dispositivo.nome;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
-                        document.querySelector('#dispositivoModelo').value = dispositivo.modelo;
+                        atualizarModelos(dispositivo.tipo, dispositivo.modelo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
                         document.querySelector('#dispositivoMac2').value = dispositivo.mac2;
                         // Preenche o campo do sensor de temperatura
                         document.querySelector('#dispositivoTempHabilitada').checked = !!parseInt(dispositivo.temp_habilitada);
 
     
+<<<<<<< codex/add-analog-input-configuration-to-index.php
                         // Preenche os campos das entradas digitais
                         for (let i = 1; i <= 8; i++) {
                             let index = i < 10 ? '0' + i : i;
@@ -3153,6 +3273,19 @@ function abrirModalDispositivo(id = null) {
                         toggleAnalog();
 
                         carregarPiscinas(dispositivo.piscina_id);
+=======
+                        // Preenche os campos das entradas digitais
+                        for (let i = 1; i <= 8; i++) {
+                            let index = i < 10 ? '0' + i : i;
+                            document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
+                            document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
+                        }
+    
+
+                        carregarPiscinas(dispositivo.piscina_id);
+                        atualizarFieldsetsPorTipo();
+
+>>>>>>> main
                     }
                 } else {
                     Swal.fire('Erro', 'Dispositivo não encontrado!', 'error');
@@ -3163,15 +3296,19 @@ function abrirModalDispositivo(id = null) {
             }
         });
     } else {
-        // Modo cadastro
-        btnCadastrar.disabled = false;
-        btnAtualizar.disabled = true;
-        carregarPiscinas();
-    }
-    
+    // Modo cadastro
+    btnCadastrar.disabled = false;
+    btnAtualizar.disabled = true;
+    carregarPiscinas();
+
+    // Atualiza modelos e fieldsets por tipo (deixe ambos)
+    atualizarModelos(tipoSelect.value);
+    atualizarFieldsetsPorTipo();
+
     // Exibe o modal
     $('#modal_dispositivo').modal('show');
 }
+
 
 function abrirModalLeituraManual(piscinaId = null, leituraId = null) {
     // Botões
