@@ -160,8 +160,27 @@ function abrirModalDispositivo(id = null) {
         'Gerador de cloro - Passagem': ['5L', '7L', '10L', '14L', '28L'],
         'Gerador de cloro - Usina': ['3 kg/dia', '5 kg/dia', '12 kg/dia']
     };
+    const entradasPorModelo = { A4: 4, A8: 8, A16: 16 };
     const tipoSelect = document.querySelector('#dispositivoTipo');
     const modeloSelect = document.querySelector('#dispositivoModelo');
+
+    function atualizarCamposDigitais(modelo) {
+        const total = entradasPorModelo[modelo] || 0;
+        for (let i = 1; i <= 16; i++) {
+            const index = i < 10 ? '0' + i : i;
+            const nomeEl = document.getElementById('di' + index + '_nome');
+            const tipoEl = document.getElementById('di' + index + '_tipo');
+            if (!nomeEl || !tipoEl) continue;
+            const row = nomeEl.closest('.form-row');
+            if (i <= total) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+                nomeEl.value = '';
+                tipoEl.value = '0';
+            }
+        }
+    }
 
     function atualizarModelos(tipo, selecionado = null) {
         modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
@@ -176,17 +195,24 @@ function abrirModalDispositivo(id = null) {
                 modeloSelect.appendChild(opt);
             });
         }
+        atualizarCamposDigitais(selecionado || modeloSelect.value);
     }
 
-    tipoSelect.onchange = () => atualizarModelos(tipoSelect.value);
+    tipoSelect.onchange = () => {
+        atualizarModelos(tipoSelect.value);
+    };
+    modeloSelect.onchange = () => atualizarCamposDigitais(modeloSelect.value);
     atualizarModelos(tipoSelect.value);
     
-    // Limpa os campos das entradas digitais (di01 até di08)
-    for (let i = 1; i <= 8; i++) {
+    // Limpa os campos das entradas digitais (di01 até di16 caso existam)
+    for (let i = 1; i <= 16; i++) {
         let index = i < 10 ? '0' + i : i;
-        document.querySelector('#di' + index + '_nome').value = '';
-        document.querySelector('#di' + index + '_tipo').value = '0'; // valor padrão (NA)
+        const nomeEl = document.querySelector('#di' + index + '_nome');
+        const tipoEl = document.querySelector('#di' + index + '_tipo');
+        if (nomeEl) nomeEl.value = '';
+        if (tipoEl) tipoEl.value = '0'; // valor padrão (NA)
     }
+    atualizarCamposDigitais(modeloSelect.value);
     
     // Função para carregar as piscinas no dropdown
     function carregarPiscinas(selectedPiscinaID = null) {
@@ -249,12 +275,16 @@ function abrirModalDispositivo(id = null) {
 
     
                         // Preenche os campos das entradas digitais
-                        for (let i = 1; i <= 8; i++) {
+                        for (let i = 1; i <= 16; i++) {
                             let index = i < 10 ? '0' + i : i;
-                            document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
-                            document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
+                            const nomeEl = document.querySelector('#di' + index + '_nome');
+                            const tipoEl = document.querySelector('#di' + index + '_tipo');
+                            if (nomeEl) nomeEl.value = dispositivo['di' + index + '_nome'] || '';
+                            if (tipoEl) tipoEl.value = dispositivo['di' + index + '_tipo'] || '0';
                         }
-    
+
+                        atualizarCamposDigitais(dispositivo.modelo);
+
                         carregarPiscinas(dispositivo.piscina_id);
                     }
                 } else {
