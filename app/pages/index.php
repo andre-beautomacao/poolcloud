@@ -325,13 +325,25 @@ include '../../includes/header.php';
             </div>
 
             <!-- Novo campo: Entradas Digitais -->
-            <fieldset class="mb-3">
-            <legend>Entradas Digitais (Defina o nome e o tipo)</legend>
+            <fieldset id="fieldsetEntradasDigitais" class="mb-3" style="display:none;">
+            <legend>Configuração de Entradas.</legend>
             <!-- Entrada 01 -->
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di01_nome">Entrada 01 - Nome</label>
-                <input type="text" id="di01_nome" class="form-control">
+                <select id="di01_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di01_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di01_tipo">Entrada 01 - Tipo</label>
@@ -345,7 +357,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di02_nome">Entrada 02 - Nome</label>
-                <input type="text" id="di02_nome" class="form-control">
+                <select id="di02_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di02_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di02_tipo">Entrada 02 - Tipo</label>
@@ -359,7 +383,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di03_nome">Entrada 03 - Nome</label>
-                <input type="text" id="di03_nome" class="form-control">
+                <select id="di03_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di03_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di03_tipo">Entrada 03 - Tipo</label>
@@ -373,7 +409,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di04_nome">Entrada 04 - Nome</label>
-                <input type="text" id="di04_nome" class="form-control">
+                <select id="di04_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di04_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di04_tipo">Entrada 04 - Tipo</label>
@@ -387,7 +435,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di05_nome">Entrada 05 - Nome</label>
-                <input type="text" id="di05_nome" class="form-control">
+                <select id="di05_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di05_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di05_tipo">Entrada 05 - Tipo</label>
@@ -401,7 +461,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di06_nome">Entrada 06 - Nome</label>
-                <input type="text" id="di06_nome" class="form-control">
+                <select id="di06_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di06_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di06_tipo">Entrada 06 - Tipo</label>
@@ -415,7 +487,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di07_nome">Entrada 07 - Nome</label>
-                <input type="text" id="di07_nome" class="form-control">
+                <select id="di07_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di07_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di07_tipo">Entrada 07 - Tipo</label>
@@ -429,7 +513,19 @@ include '../../includes/header.php';
             <div class="form-row">
                 <div class="col-md-6 mb-2">
                 <label for="di08_nome">Entrada 08 - Nome</label>
-                <input type="text" id="di08_nome" class="form-control">
+                <select id="di08_nome" class="form-control di-nome-select">
+                    <option value="">Selecione</option>
+                    <option>Bomba de filtragem</option>
+                    <option>Bomba booster</option>
+                    <option>Dosadora de cloro</option>
+                    <option>Dosadora de redutor de pH</option>
+                    <option>Sensor de fluxo - Retrolavagem</option>
+                    <option>Sensor de fluxo - Principal</option>
+                    <option>Sensor de nível - Reservatório de cloro</option>
+                    <option>Sensor de nível - Redutor de pH</option>
+                    <option>Outro</option>
+                </select>
+                <input type="text" id="di08_nome_outro" class="form-control di-nome-outro mt-1" placeholder="Especificar" style="display:none;">
                 </div>
                 <div class="col-md-6 mb-2">
                 <label for="di08_tipo">Entrada 08 - Tipo</label>

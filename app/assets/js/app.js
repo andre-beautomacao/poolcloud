@@ -10,6 +10,24 @@ let isLoadingLeiturasManuais = false; // Variável de controle para leituras
 // Variável global para o modo de visualização
 let modoDeVisualizacao = localStorage.getItem("modoDeVisualizacao") || "lista";
 
+function toggleEntradasDigitais() {
+    const fieldset = document.getElementById('fieldsetEntradasDigitais');
+    const tipo = document.getElementById('dispositivoTipo');
+    if (!fieldset || !tipo) return;
+    fieldset.style.display = tipo.value.trim().toLowerCase() === 'central de monitoramento' ? 'block' : 'none';
+}
+
+function handleOutro(select) {
+    const outro = document.getElementById(select.id + '_outro');
+    if (!outro) return;
+    if (select.value === 'Outro') {
+        outro.style.display = 'block';
+    } else {
+        outro.value = '';
+        outro.style.display = 'none';
+    }
+}
+
 document.getElementById('btnAddEndereco')?.addEventListener('click', function(){
     abrirModalEndereco();
 });
@@ -180,6 +198,15 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnHome')?.addEventListener('click', function () {
         atualizarURL('home', true);
         mostrarConteudo('todos');
+    });
+
+    // Mostra ou oculta as entradas digitais conforme o tipo
+    document.getElementById('dispositivoTipo')?.addEventListener('input', toggleEntradasDigitais);
+    toggleEntradasDigitais();
+
+    // Listeners para opção "Outro"
+    document.querySelectorAll('.di-nome-select').forEach(sel => {
+        sel.addEventListener('change', function() { handleOutro(this); });
     });
     
 
@@ -2228,7 +2255,9 @@ function cadastrar_dispositivo() {
     // Adiciona os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
         const index = i < 10 ? '0' + i : i;
-        const di_nome = document.getElementById('di' + index + '_nome').value;
+        const select = document.getElementById('di' + index + '_nome');
+        const outro = document.getElementById('di' + index + '_nome_outro');
+        const di_nome = select.value === 'Outro' ? (outro ? outro.value : '') : select.value;
         const di_tipo = document.getElementById('di' + index + '_tipo').value;
         formData.append('di' + index + '_nome', di_nome);
         formData.append('di' + index + '_tipo', di_tipo);
@@ -2393,8 +2422,12 @@ function limparModalDispositivo() {
     for (let i = 1; i <= 8; i++) {
         const index = i < 10 ? '0' + i : i;
         document.querySelector('#di' + index + '_nome').value = '';
+        const outro = document.querySelector('#di' + index + '_nome_outro');
+        if (outro) { outro.value = ''; outro.style.display = 'none'; }
         document.querySelector('#di' + index + '_tipo').value = '0';
     }
+
+    toggleEntradasDigitais();
 
     // Também limpa o select de piscina
     const piscinaSelect = document.querySelector('#dispositivoPiscina');
@@ -2528,7 +2561,9 @@ function editar_dispositivo() {
     let digitalInputs = {};
     for (let i = 1; i <= 8; i++) {
         let index = i < 10 ? '0' + i : i;
-        digitalInputs['di' + index + '_nome'] = document.querySelector('#di' + index + '_nome').value;
+        const select = document.querySelector('#di' + index + '_nome');
+        const outro = document.querySelector('#di' + index + '_nome_outro');
+        digitalInputs['di' + index + '_nome'] = select.value === 'Outro' ? (outro ? outro.value : '') : select.value;
         digitalInputs['di' + index + '_tipo'] = document.querySelector('#di' + index + '_tipo').value;
     }
 
@@ -3030,8 +3065,11 @@ function abrirModalDispositivo(id = null) {
     for (let i = 1; i <= 8; i++) {
         let index = i < 10 ? '0' + i : i;
         document.querySelector('#di' + index + '_nome').value = '';
+        const outro = document.querySelector('#di' + index + '_nome_outro');
+        if (outro) { outro.value = ''; outro.style.display = 'none'; }
         document.querySelector('#di' + index + '_tipo').value = '0'; // valor padrão (NA)
     }
+    toggleEntradasDigitais();
     
     // Função para carregar as piscinas no dropdown
     function carregarPiscinas(selectedPiscinaID = null) {
@@ -3096,11 +3134,22 @@ function abrirModalDispositivo(id = null) {
                         // Preenche os campos das entradas digitais
                         for (let i = 1; i <= 8; i++) {
                             let index = i < 10 ? '0' + i : i;
-                            document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
+                            const select = document.querySelector('#di' + index + '_nome');
+                            const outro = document.querySelector('#di' + index + '_nome_outro');
+                            const valor = dispositivo['di' + index + '_nome'] || '';
+                            let optionExists = Array.from(select.options).some(o => o.value === valor);
+                            if (optionExists || valor === '') {
+                                select.value = valor;
+                                if (outro) { outro.value = ''; outro.style.display = 'none'; }
+                            } else {
+                                select.value = 'Outro';
+                                if (outro) { outro.value = valor; outro.style.display = 'block'; }
+                            }
                             document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
                         }
     
                         carregarPiscinas(dispositivo.piscina_id);
+                        toggleEntradasDigitais();
                     }
                 } else {
                     Swal.fire('Erro', 'Dispositivo não encontrado!', 'error');
@@ -3115,6 +3164,7 @@ function abrirModalDispositivo(id = null) {
         btnCadastrar.disabled = false;
         btnAtualizar.disabled = true;
         carregarPiscinas();
+        toggleEntradasDigitais();
     }
     
     // Exibe o modal
