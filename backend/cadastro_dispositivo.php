@@ -58,20 +58,32 @@ if (
         $digitalInputs["di{$index}_tipo"] = isset($_POST["di{$index}_tipo"]) ? intval($_POST["di{$index}_tipo"]) : 0;
     }
 
+    // Captura os dados das entradas analógicas (ai01 até ai04)
+    $analogInputs = [];
+    for ($i = 1; $i <= 4; $i++) {
+        $index = '0' . $i;
+        $analogInputs["ai{$index}_nome"] = isset($_POST["ai{$index}_nome"]) ? trim($_POST["ai{$index}_nome"]) : '';
+        $analogInputs["ai{$index}_escala"] = isset($_POST["ai{$index}_escala"]) ? trim($_POST["ai{$index}_escala"]) : '';
+    }
+
     $usuario_id = $_SESSION['UsuarioID']; // Obtém o ID do usuário logado
 
     // Insere os dados na tabela dispositivos, incluindo o novo campo temp_habilitada
     $queryInserir = "
         INSERT INTO dispositivos 
-        (usuario_id, nome, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada, 
-         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo, 
-         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo, 
-         di07_nome, di07_tipo, di08_nome, di08_tipo)
-        VALUES 
-        (:usuario_id, :nome, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada, 
-         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo, 
-         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo, 
-         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
+        (usuario_id, nome, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
+         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
+         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo,
+         di07_nome, di07_tipo, di08_nome, di08_tipo,
+         ai01_nome, ai01_escala, ai02_nome, ai02_escala,
+         ai03_nome, ai03_escala, ai04_nome, ai04_escala)
+        VALUES
+        (:usuario_id, :nome, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada,
+         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
+         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
+         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo,
+         :ai01_nome, :ai01_escala, :ai02_nome, :ai02_escala,
+         :ai03_nome, :ai03_escala, :ai04_nome, :ai04_escala)
     ";
 
     $stmtInserir = $pdo->prepare($queryInserir);
@@ -86,6 +98,11 @@ if (
 
     // Vincula os parâmetros das entradas digitais
     foreach ($digitalInputs as $campo => $valor) {
+        $stmtInserir->bindValue(":$campo", $valor);
+    }
+
+    // Vincula os parâmetros das entradas analógicas
+    foreach ($analogInputs as $campo => $valor) {
         $stmtInserir->bindValue(":$campo", $valor);
     }
 

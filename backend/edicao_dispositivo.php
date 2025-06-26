@@ -39,6 +39,16 @@ if ($_POST) {
         $di08_nome = isset($_POST['di08_nome']) ? trim($_POST['di08_nome']) : '';
         $di08_tipo = isset($_POST['di08_tipo']) ? intval($_POST['di08_tipo']) : 0;
 
+        // Entradas analógicas
+        $ai01_nome = isset($_POST['ai01_nome']) ? trim($_POST['ai01_nome']) : '';
+        $ai01_escala = isset($_POST['ai01_escala']) ? trim($_POST['ai01_escala']) : '';
+        $ai02_nome = isset($_POST['ai02_nome']) ? trim($_POST['ai02_nome']) : '';
+        $ai02_escala = isset($_POST['ai02_escala']) ? trim($_POST['ai02_escala']) : '';
+        $ai03_nome = isset($_POST['ai03_nome']) ? trim($_POST['ai03_nome']) : '';
+        $ai03_escala = isset($_POST['ai03_escala']) ? trim($_POST['ai03_escala']) : '';
+        $ai04_nome = isset($_POST['ai04_nome']) ? trim($_POST['ai04_nome']) : '';
+        $ai04_escala = isset($_POST['ai04_escala']) ? trim($_POST['ai04_escala']) : '';
+
         // Prepara o SQL para atualização do dispositivo, incluindo os campos das entradas digitais.
         $stmt = $pdo->prepare("
             UPDATE dispositivos SET 
@@ -56,7 +66,11 @@ if ($_POST) {
                 di05_nome = :di05_nome, di05_tipo = :di05_tipo,
                 di06_nome = :di06_nome, di06_tipo = :di06_tipo,
                 di07_nome = :di07_nome, di07_tipo = :di07_tipo,
-                di08_nome = :di08_nome, di08_tipo = :di08_tipo
+                di08_nome = :di08_nome, di08_tipo = :di08_tipo,
+                ai01_nome = :ai01_nome, ai01_escala = :ai01_escala,
+                ai02_nome = :ai02_nome, ai02_escala = :ai02_escala,
+                ai03_nome = :ai03_nome, ai03_escala = :ai03_escala,
+                ai04_nome = :ai04_nome, ai04_escala = :ai04_escala
             WHERE id = :id 
               AND piscina_id IN (SELECT id FROM piscinas WHERE usuario_id = :usuarioID)
         ");
@@ -83,6 +97,14 @@ if ($_POST) {
         $stmt->bindParam(':di07_tipo', $di07_tipo, PDO::PARAM_INT);
         $stmt->bindParam(':di08_nome', $di08_nome);
         $stmt->bindParam(':di08_tipo', $di08_tipo, PDO::PARAM_INT);
+        $stmt->bindParam(':ai01_nome', $ai01_nome);
+        $stmt->bindParam(':ai01_escala', $ai01_escala);
+        $stmt->bindParam(':ai02_nome', $ai02_nome);
+        $stmt->bindParam(':ai02_escala', $ai02_escala);
+        $stmt->bindParam(':ai03_nome', $ai03_nome);
+        $stmt->bindParam(':ai03_escala', $ai03_escala);
+        $stmt->bindParam(':ai04_nome', $ai04_nome);
+        $stmt->bindParam(':ai04_escala', $ai04_escala);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
 
