@@ -18,11 +18,9 @@ if (isset($_POST['id'])) {
     $stmt = $pdo->prepare("
         SELECT 
             dispositivos.id, 
-            dispositivos.nome, 
             dispositivos.tipo, 
             dispositivos.modelo, 
-            dispositivos.mac1, 
-            dispositivos.mac2,
+            dispositivos.mac1,
             dispositivos.temp_habilitada,
             dispositivos.di01_nome, dispositivos.di01_tipo, 
             dispositivos.di02_nome, dispositivos.di02_tipo, 
@@ -30,8 +28,10 @@ if (isset($_POST['id'])) {
             dispositivos.di04_nome, dispositivos.di04_tipo, 
             dispositivos.di05_nome, dispositivos.di05_tipo, 
             dispositivos.di06_nome, dispositivos.di06_tipo, 
-            dispositivos.di07_nome, dispositivos.di07_tipo, 
-            dispositivos.di08_nome, dispositivos.di08_tipo, 
+            dispositivos.di07_nome, dispositivos.di07_tipo,
+            dispositivos.di08_nome, dispositivos.di08_tipo,
+            dispositivos.ai01_funcao, dispositivos.ai02_funcao,
+            dispositivos.ai03_funcao, dispositivos.ai04_funcao,
             dispositivos.piscina_id
         FROM dispositivos
         JOIN piscinas ON dispositivos.piscina_id = piscinas.id

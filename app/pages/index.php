@@ -300,24 +300,23 @@ include '../../includes/header.php';
             </select>
             </div>
             <div class="mb-3">
-            <label for="dispositivoNome">Nome</label>
-            <input type="text" id="dispositivoNome" class="form-control">
-            </div>
-            <div class="mb-3">
             <label for="dispositivoTipo">Tipo</label>
-            <input type="text" id="dispositivoTipo" class="form-control">
+            <select id="dispositivoTipo" class="form-control">
+                <option value="">Selecione o tipo</option>
+                <option value="Central de monitoramento">Central de monitoramento</option>
+                <option value="Gerador de cloro - Passagem">Gerador de cloro - Passagem</option>
+                <option value="Gerador de cloro - Usina">Gerador de cloro - Usina</option>
+            </select>
             </div>
             <div class="mb-3">
             <label for="dispositivoModelo">Modelo</label>
-            <input type="text" id="dispositivoModelo" class="form-control">
+            <select id="dispositivoModelo" class="form-control">
+                <option value="">Selecione o modelo</option>
+            </select>
             </div>
             <div class="mb-3">
             <label for="dispositivoMac1">MAC 1</label>
             <input type="text" id="dispositivoMac1" class="form-control">
-            </div>
-            <div class="mb-3">
-            <label for="dispositivoMac2">MAC 2</label>
-            <input type="text" id="dispositivoMac2" class="form-control">
             </div>
             <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="dispositivoTempHabilitada">
@@ -325,8 +324,13 @@ include '../../includes/header.php';
             </div>
 
             <!-- Novo campo: Entradas Digitais -->
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
             <fieldset id="fieldsetEntradasDigitais" class="mb-3" style="display:none;">
             <legend>Configuração de Entradas.</legend>
+=======
+            <fieldset class="mb-3" id="digitalFieldset">
+            <legend>Entradas Digitais (Defina o nome e o tipo)</legend>
+>>>>>>> main
             <!-- Entrada 01 -->
             <div class="form-row">
                 <div class="col-md-6 mb-2">
@@ -535,6 +539,24 @@ include '../../includes/header.php';
                 </select>
                 </div>
             </div>
+            </fieldset>
+
+            <!-- Campo: Entradas Analógicas -->
+            <fieldset id="analogInputsFieldset" class="mb-3" style="display:none;">
+            <legend>Entradas Analógicas</legend>
+            <?php for ($i = 1; $i <= 4; $i++): $idx = sprintf('%02d', $i); ?>
+            <div class="form-row">
+                <div class="col-md-12 mb-2">
+                    <label for="ai<?= $idx ?>_funcao">Entrada <?= $idx ?> - Função</label>
+                    <select id="ai<?= $idx ?>_funcao" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="Sensor de pH">Sensor de pH</option>
+                        <option value="Sensor de ORP">Sensor de ORP</option>
+                        <option value="Sensor de corrente">Sensor de corrente</option>
+                    </select>
+                </div>
+            </div>
+            <?php endfor; ?>
             </fieldset>
         </div>
         <div class="modal-footer">

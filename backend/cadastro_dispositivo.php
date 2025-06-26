@@ -10,24 +10,20 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 // Verifica se os campos obrigatórios foram enviados
 if (
-    isset($_POST['nome']) &&
     isset($_POST['tipo']) &&
     isset($_POST['modelo']) &&
     isset($_POST['mac1']) &&
-    isset($_POST['mac2']) &&
     isset($_POST['piscina_id'])
 ) {
-    $nome = trim($_POST['nome']);
     $tipo = trim($_POST['tipo']);
     $modelo = trim($_POST['modelo']);
     $mac1 = trim($_POST['mac1']);
-    $mac2 = trim($_POST['mac2']);
     $piscina_id = intval($_POST['piscina_id']);
     $temp_habilitada = isset($_POST['temp_habilitada']) ? intval($_POST['temp_habilitada']) : 0;
 
     // Valida os endereços MAC (apenas caracteres alfanuméricos e 12 caracteres)
     $macRegex = '/^[0-9A-Fa-f]{12}$/';
-    if (!preg_match($macRegex, $mac1) || !preg_match($macRegex, $mac2)) {
+    if (!preg_match($macRegex, $mac1)) {
         http_response_code(400); // Requisição inválida
         echo 'Os endereços MAC devem conter apenas 12 caracteres alfanuméricos (sem separadores).';
         exit;
@@ -59,34 +55,58 @@ if (
         $digitalInputs["di{$index}_tipo"] = isset($_POST["di{$index}_tipo"]) ? intval($_POST["di{$index}_tipo"]) : 0;
     }
 
+    // Captura os dados das entradas analógicas (ai01 até ai04)
+    $analogInputs = [];
+    for ($i = 1; $i <= 4; $i++) {
+        $index = $i < 10 ? '0' . $i : $i;
+        $analogInputs["ai{$index}_funcao"] = isset($_POST["ai{$index}_funcao"]) ? trim($_POST["ai{$index}_funcao"]) : '';
+    }
+
     $usuario_id = $_SESSION['UsuarioID']; // Obtém o ID do usuário logado
 
     // Insere os dados na tabela dispositivos, incluindo o novo campo temp_habilitada
     $queryInserir = "
-        INSERT INTO dispositivos 
-        (usuario_id, nome, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada, 
-         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo, 
-         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo, 
+<<<<<<< codex/remove-mac-2-input-and-references
+        INSERT INTO dispositivos
+        (usuario_id, nome, tipo, modelo, mac1, piscina_id, temp_habilitada,
+         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
+         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo,
          di07_nome, di07_tipo, di08_nome, di08_tipo)
-        VALUES 
-        (:usuario_id, :nome, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada, 
-         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo, 
-         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo, 
+        VALUES
+        (:usuario_id, :nome, :tipo, :modelo, :mac1, :piscina_id, :temp_habilitada,
+         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
+         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
          :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
+=======
+
+        INSERT INTO dispositivos
+        (usuario_id, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
+         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
+         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo,
+         di07_nome, di07_tipo, di08_nome, di08_tipo)
+        VALUES
+        (:usuario_id, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada,
+         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
+         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
+         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
+>>>>>>> main
     ";
 
     $stmtInserir = $pdo->prepare($queryInserir);
     $stmtInserir->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmtInserir->bindParam(':nome', $nome);
     $stmtInserir->bindParam(':tipo', $tipo);
     $stmtInserir->bindParam(':modelo', $modelo);
     $stmtInserir->bindParam(':mac1', $mac1);
-    $stmtInserir->bindParam(':mac2', $mac2);
     $stmtInserir->bindParam(':piscina_id', $piscina_id, PDO::PARAM_INT);
     $stmtInserir->bindParam(':temp_habilitada', $temp_habilitada, PDO::PARAM_INT);
 
     // Vincula os parâmetros das entradas digitais
     foreach ($digitalInputs as $campo => $valor) {
+        $stmtInserir->bindValue(":$campo", $valor);
+    }
+
+    // Vincula os parâmetros das entradas analógicas
+    foreach ($analogInputs as $campo => $valor) {
         $stmtInserir->bindValue(":$campo", $valor);
     }
 

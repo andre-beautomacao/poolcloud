@@ -182,12 +182,18 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarURL('piscinas', true);
         mostrarConteudo('containerPiscinas');
     });
-    
-    document.getElementById('btnDispositivos')?.addEventListener('click', function () {
-        listar_dispositivos();
-        atualizarURL('dispositivos', true);
-        mostrarConteudo('containerDispositivos');
-    });
+document.getElementById('btnDispositivos')?.addEventListener('click', function () {
+    listar_dispositivos();
+    atualizarURL('dispositivos', true);
+    mostrarConteudo('containerDispositivos');
+});
+
+// Observa o tipo do dispositivo para alternar exibição dos fieldsets
+const tipoSelect = document.getElementById('dispositivoTipo');
+if (tipoSelect) {
+    tipoSelect.addEventListener('change', atualizarFieldsetsPorTipo);
+}
+
     
     document.getElementById('btnLeituras')?.addEventListener('click', function () {
         listar_leituras_manuais(); 
@@ -2221,34 +2227,38 @@ function cadastrar_piscina() {
     });
 }
 function cadastrar_dispositivo() {
-    const dispositivoNome = document.getElementById('dispositivoNome').value;
     const dispositivoTipo = document.getElementById('dispositivoTipo').value;
     const dispositivoModelo = document.getElementById('dispositivoModelo').value;
     const mac1 = document.getElementById('dispositivoMac1').value;
-    const mac2 = document.getElementById('dispositivoMac2').value;
     const piscinaID = document.getElementById('dispositivoPiscinaID').value;
     const tempHabilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
+<<<<<<< codex/remove-mac-2-input-and-references
     // Validação dos campos principais
-    if (!dispositivoNome || !dispositivoTipo || !dispositivoModelo || !mac1 || !mac2 || !piscinaID) {
+    if (!dispositivoNome || !dispositivoTipo || !dispositivoModelo || !mac1 || !piscinaID) {
         Swal.fire('Erro!', 'Preencha todos os campos!', 'error');
         return;
     }
+=======
+    // Validação dos campos principais
+    if (!dispositivoTipo || !dispositivoModelo || !mac1 || !mac2 || !piscinaID) {
+        Swal.fire('Erro!', 'Preencha todos os campos!', 'error');
+        return;
+    }
+>>>>>>> main
 
     // Validação dos endereços MAC (somente alfanuméricos com 12 caracteres)
     const macRegex = /^[0-9A-Fa-f]{12}$/;
-    if (!macRegex.test(mac1) || !macRegex.test(mac2)) {
+    if (!macRegex.test(mac1)) {
         Swal.fire('Erro!', 'Os endereços MAC devem conter apenas 12 caracteres alfanuméricos (sem separadores)!', 'error');
         return;
     }
 
     // Cria o FormData e adiciona os campos principais
     const formData = new FormData();
-    formData.append('nome', dispositivoNome);
     formData.append('tipo', dispositivoTipo);
     formData.append('modelo', dispositivoModelo);
     formData.append('mac1', mac1);
-    formData.append('mac2', mac2);
     formData.append('piscina_id', piscinaID);
     formData.append('temp_habilitada', tempHabilitada); // ✅ Agora está no lugar certo
 
@@ -2261,6 +2271,13 @@ function cadastrar_dispositivo() {
         const di_tipo = document.getElementById('di' + index + '_tipo').value;
         formData.append('di' + index + '_nome', di_nome);
         formData.append('di' + index + '_tipo', di_tipo);
+    }
+
+    // Adiciona os campos das entradas analógicas (ai01 até ai04)
+    for (let i = 1; i <= 4; i++) {
+        const index = i < 10 ? '0' + i : i;
+        const ai_funcao = document.getElementById('ai' + index + '_funcao');
+        formData.append('ai' + index + '_funcao', ai_funcao ? ai_funcao.value : '');
     }
 
     // Envia os dados para o backend
@@ -2411,10 +2428,11 @@ function limparModal() {
 function limparModalDispositivo() {
     document.querySelector('#dispositivoID').value = '';
     document.querySelector('#dispositivoPiscinaID').value = '';
-    document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
-    document.querySelector('#dispositivoModelo').value = '';
+    const modeloSelect = document.querySelector('#dispositivoModelo');
+    if (modeloSelect) modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
     document.querySelector('#dispositivoMac1').value = '';
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
     document.querySelector('#dispositivoMac2').value = '';
     document.querySelector('#dispositivoTempHabilitada').checked = false;
 
@@ -2428,10 +2446,89 @@ function limparModalDispositivo() {
     }
 
     toggleEntradasDigitais();
+=======
+    document.querySelector('#dispositivoTempHabilitada').checked = false;
+
+    // Limpa entradas digitais (di01 a di08)
+    for (let i = 1; i <= 8; i++) {
+        const index = i < 10 ? '0' + i : i;
+        document.querySelector('#di' + index + '_nome').value = '';
+        document.querySelector('#di' + index + '_tipo').value = '0';
+    }
+>>>>>>> main
+
+    // Limpa entradas analógicas (ai01 a ai04)
+    for (let i = 1; i <= 4; i++) {
+        const index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        if (elem) elem.value = '';
+    }
 
     // Também limpa o select de piscina
     const piscinaSelect = document.querySelector('#dispositivoPiscina');
     if (piscinaSelect) piscinaSelect.value = '';
+
+    // Oculta o fieldset de entradas analógicas por padrão
+    const analogFieldset = document.getElementById('analogInputsFieldset');
+    if (analogFieldset) analogFieldset.style.display = 'none';
+}
+
+function atualizarFieldsetsPorTipo() {
+    const tipo = document.getElementById('dispositivoTipo')?.value || '';
+    const digitalFieldset = document.getElementById('digitalFieldset');
+    const analogFieldset = document.getElementById('analogFieldset');
+    const mostrar = tipo === 'Central de monitoramento';
+
+    if (digitalFieldset) {
+        digitalFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            for (let i = 1; i <= 8; i++) {
+                const index = i < 10 ? '0' + i : i;
+                const nomeInput = document.getElementById('di' + index + '_nome');
+                const tipoSelect = document.getElementById('di' + index + '_tipo');
+                if (nomeInput) nomeInput.value = '';
+                if (tipoSelect) tipoSelect.value = '0';
+            }
+        }
+    }
+
+    if (analogFieldset) {
+        analogFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            analogFieldset.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
+}
+
+function atualizarFieldsetsPorTipo() {
+    const tipo = document.getElementById('dispositivoTipo')?.value || '';
+    const digitalFieldset = document.getElementById('digitalFieldset');
+    const analogFieldset = document.getElementById('analogFieldset');
+    const mostrar = tipo === 'Central de monitoramento';
+
+    if (digitalFieldset) {
+        digitalFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            for (let i = 1; i <= 8; i++) {
+                const index = i < 10 ? '0' + i : i;
+                const nomeInput = document.getElementById('di' + index + '_nome');
+                const tipoSelect = document.getElementById('di' + index + '_tipo');
+                if (nomeInput) nomeInput.value = '';
+                if (tipoSelect) tipoSelect.value = '0';
+            }
+        }
+    }
+
+    if (analogFieldset) {
+        analogFieldset.style.display = mostrar ? 'block' : 'none';
+        if (!mostrar) {
+            analogFieldset.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    }
 }
 
 //EDIÇOES------------------------------------------------------------------------------------------------------------------------------
@@ -2543,19 +2640,24 @@ function editar_piscina() {
 function editar_dispositivo() {
     // Recupera os dados principais
     let id = document.querySelector('#dispositivoID').value;
-    let nome = document.querySelector('#dispositivoNome').value;
     let tipo = document.querySelector('#dispositivoTipo').value;
     let modelo = document.querySelector('#dispositivoModelo').value;
     let mac1 = document.querySelector('#dispositivoMac1').value;
-    let mac2 = document.querySelector('#dispositivoMac2').value;
     let piscina_id = document.querySelector('#dispositivoPiscinaID').value;
     let temp_habilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Verifica se os campos obrigatórios estão preenchidos
-    if (!id || !nome || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
+<<<<<<< codex/remove-mac-2-input-and-references
+    if (!id || !nome || !tipo || !modelo || !mac1 || !piscina_id) {
         Swal.fire('Erro!', 'Preencha todos os campos obrigatórios!', 'error');
         return;
     }
+=======
+    if (!id || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
+        Swal.fire('Erro!', 'Preencha todos os campos obrigatórios!', 'error');
+        return;
+    }
+>>>>>>> main
 
     // Coleta os dados das entradas digitais (di01 até di08)
     let digitalInputs = {};
@@ -2567,21 +2669,37 @@ function editar_dispositivo() {
         digitalInputs['di' + index + '_tipo'] = document.querySelector('#di' + index + '_tipo').value;
     }
 
+    // Coleta os dados das entradas analógicas (ai01 até ai04)
+    let analogInputs = {};
+    for (let i = 1; i <= 4; i++) {
+        let index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        analogInputs['ai' + index + '_funcao'] = elem ? elem.value : '';
+    }
+
     // Envia os dados para o backend via AJAX
     $.ajax({
         url: '../../backend/edicao_dispositivo.php',
         type: 'post',
         async: true,
+<<<<<<< codex/remove-mac-2-input-and-references
         data: Object.assign({
             id: id,
             nome: nome,
             tipo: tipo,
             modelo: modelo,
             mac1: mac1,
+=======
+        data: Object.assign({
+            id: id,
+            tipo: tipo,
+            modelo: modelo,
+            mac1: mac1,
             mac2: mac2,
+>>>>>>> main
             piscina_id: piscina_id,
             temp_habilitada: temp_habilitada
-        }, digitalInputs),
+        }, digitalInputs, analogInputs),
         success: (resultado) => {
             console.log("Resultado", resultado);
             try {
@@ -3048,19 +3166,92 @@ function abrirModalPiscina(id = null) {
     // Exibe o modal
     $('#modal_piscina').modal('show');
 }
+<<<<<<< codex/add-analog-input-configuration-to-index.php
 function abrirModalDispositivo(id = null) {
     const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
     const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
+
+    const analogFieldset = document.getElementById('analogInputsFieldset');
+    const tipoInput = document.getElementById('dispositivoTipo');
+    const toggleAnalog = () => {
+        if (!analogFieldset) return;
+        analogFieldset.style.display = tipoInput.value === 'Central de monitoramento' ? 'block' : 'none';
+    };
+    if (tipoInput) tipoInput.addEventListener('input', toggleAnalog);
+
+    // Limpa os campos do modal principal
+    document.querySelector('#dispositivoID').value = '';
+=======
+
+function abrirModalDispositivo(id = null) {
+
+    const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
+    const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
     
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
     // Limpa os campos do modal principal
     document.querySelector('#dispositivoID').value = '';
     document.querySelector('#dispositivoPiscinaID').value = '';
     document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
+=======
+    // Limpa os campos do modal principal
+    document.querySelector('#dispositivoID').value = '';
+>>>>>>> main
+    document.querySelector('#dispositivoPiscinaID').value = '';
+    document.querySelector('#dispositivoTipo').value = '';
+>>>>>>> main
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
-    document.querySelector('#dispositivoMac2').value = '';
+<<<<<<< codex/remove-mac-2-input-and-references
+=======
+const btnCadastrar = document.getElementById('btnCadastrarDispositivoModal');
+const btnAtualizar = document.getElementById('btnAtualizarDispositivoModal');
+
+// Limpa os campos do modal principal
+document.querySelector('#dispositivoID').value = '';
+document.querySelector('#dispositivoPiscinaID').value = '';
+document.querySelector('#dispositivoNome').value = '';
+document.querySelector('#dispositivoTipo').value = '';
+document.querySelector('#dispositivoModelo').innerHTML = '<option value="">Selecione o modelo</option>';
+document.querySelector('#dispositivoMac1').value = '';
+document.querySelector('#dispositivoMac2').value = '';
+
+// Atualiza os modelos disponíveis conforme tipo
+const modelosPorTipo = {
+    'Central de monitoramento': ['A4', 'A8', 'A16'],
+    'Gerador de cloro - Passagem': ['5L', '7L', '10L', '14L', '28L'],
+    'Gerador de cloro - Usina': ['3 kg/dia', '5 kg/dia', '12 kg/dia']
+};
+const tipoSelect = document.querySelector('#dispositivoTipo');
+const modeloSelect = document.querySelector('#dispositivoModelo');
+
+function atualizarModelos(tipo, selecionado = null) {
+    modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
+    if (modelosPorTipo[tipo]) {
+        modelosPorTipo[tipo].forEach(modelo => {
+            const opt = document.createElement('option');
+            opt.value = modelo;
+            opt.textContent = modelo;
+            if (selecionado && selecionado === modelo) {
+                opt.selected = true;
+            }
+            modeloSelect.appendChild(opt);
+        });
+    }
+}
+
+tipoSelect.onchange = () => atualizarModelos(tipoSelect.value);
+atualizarModelos(tipoSelect.value);
+
+// Atualiza visibilidade dos fieldsets por tipo
+if (typeof atualizarFieldsetsPorTipo === 'function') {
+    atualizarFieldsetsPorTipo();
+}
+
+>>>>>>> main
     
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
     // Limpa os campos das entradas digitais (di01 até di08)
     for (let i = 1; i <= 8; i++) {
         let index = i < 10 ? '0' + i : i;
@@ -3070,6 +3261,23 @@ function abrirModalDispositivo(id = null) {
         document.querySelector('#di' + index + '_tipo').value = '0'; // valor padrão (NA)
     }
     toggleEntradasDigitais();
+=======
+    // Limpa os campos das entradas digitais (di01 até di08)
+    for (let i = 1; i <= 8; i++) {
+        let index = i < 10 ? '0' + i : i;
+        document.querySelector('#di' + index + '_nome').value = '';
+        document.querySelector('#di' + index + '_tipo').value = '0'; // valor padrão (NA)
+    }
+
+    // Limpa entradas analógicas (ai01 a ai04)
+    for (let i = 1; i <= 4; i++) {
+        let index = i < 10 ? '0' + i : i;
+        const elem = document.querySelector('#ai' + index + '_funcao');
+        if (elem) elem.value = '';
+    }
+
+    toggleAnalog();
+>>>>>>> main
     
     // Função para carregar as piscinas no dropdown
     function carregarPiscinas(selectedPiscinaID = null) {
@@ -3122,15 +3330,14 @@ function abrirModalDispositivo(id = null) {
                         // Preenche os campos principais do dispositivo
                         document.querySelector('#dispositivoID').value = dispositivo.id;
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
-                        document.querySelector('#dispositivoNome').value = dispositivo.nome;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
-                        document.querySelector('#dispositivoModelo').value = dispositivo.modelo;
+                        atualizarModelos(dispositivo.tipo, dispositivo.modelo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
-                        document.querySelector('#dispositivoMac2').value = dispositivo.mac2;
                         // Preenche o campo do sensor de temperatura
                         document.querySelector('#dispositivoTempHabilitada').checked = !!parseInt(dispositivo.temp_habilitada);
 
     
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
                         // Preenche os campos das entradas digitais
                         for (let i = 1; i <= 8; i++) {
                             let index = i < 10 ? '0' + i : i;
@@ -3151,6 +3358,40 @@ function abrirModalDispositivo(id = null) {
                         carregarPiscinas(dispositivo.piscina_id);
                         toggleEntradasDigitais();
                     }
+=======
+<<<<<<< codex/add-analog-input-configuration-to-index.php
+                        // Preenche os campos das entradas digitais
+                        for (let i = 1; i <= 8; i++) {
+                            let index = i < 10 ? '0' + i : i;
+                            document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
+                            document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
+                        }
+
+                        // Preenche os campos das entradas analógicas
+                        for (let i = 1; i <= 4; i++) {
+                            let index = i < 10 ? '0' + i : i;
+                            const elem = document.querySelector('#ai' + index + '_funcao');
+                            if (elem) elem.value = dispositivo['ai' + index + '_funcao'] || '';
+                        }
+
+                        toggleAnalog();
+
+                        carregarPiscinas(dispositivo.piscina_id);
+=======
+                        // Preenche os campos das entradas digitais
+                        for (let i = 1; i <= 8; i++) {
+                            let index = i < 10 ? '0' + i : i;
+                            document.querySelector('#di' + index + '_nome').value = dispositivo['di' + index + '_nome'] || '';
+                            document.querySelector('#di' + index + '_tipo').value = dispositivo['di' + index + '_tipo'] || '0';
+                        }
+    
+
+                        carregarPiscinas(dispositivo.piscina_id);
+                        atualizarFieldsetsPorTipo();
+
+>>>>>>> main
+                    }
+>>>>>>> main
                 } else {
                     Swal.fire('Erro', 'Dispositivo não encontrado!', 'error');
                 }
@@ -3160,6 +3401,7 @@ function abrirModalDispositivo(id = null) {
             }
         });
     } else {
+<<<<<<< codex/atualizar-campo-e-lógica-no-formulário
         // Modo cadastro
         btnCadastrar.disabled = false;
         btnAtualizar.disabled = true;
@@ -3167,9 +3409,21 @@ function abrirModalDispositivo(id = null) {
         toggleEntradasDigitais();
     }
     
+=======
+    // Modo cadastro
+    btnCadastrar.disabled = false;
+    btnAtualizar.disabled = true;
+    carregarPiscinas();
+
+    // Atualiza modelos e fieldsets por tipo (deixe ambos)
+    atualizarModelos(tipoSelect.value);
+    atualizarFieldsetsPorTipo();
+
+>>>>>>> main
     // Exibe o modal
     $('#modal_dispositivo').modal('show');
 }
+
 
 function abrirModalLeituraManual(piscinaId = null, leituraId = null) {
     // Botões
