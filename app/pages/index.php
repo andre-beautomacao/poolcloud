@@ -327,9 +327,10 @@ include '../../includes/header.php';
             <label class="form-check-label" for="dispositivoTempHabilitada">Habilitar Sensor de Temperatura</label>
             </div>
 
-            <!-- Novo campo: Entradas Digitais -->
+            <!-- Configurações de entradas -->
+            <div id="entradasContainer" style="display:none;">
             <fieldset class="mb-3">
-            <legend>Entradas Digitais (Defina o nome e o tipo)</legend>
+            <legend>Configuração das entradas</legend>
             <!-- Entrada 01 -->
             <div class="form-row">
                 <div class="col-md-6 mb-2">
@@ -443,6 +444,7 @@ include '../../includes/header.php';
                 </div>
             </div>
             </fieldset>
+            </div><!-- entradasContainer -->
         </div>
         <div class="modal-footer">
             <button id="btnCadastrarDispositivoModal" class="btn btn-success" onclick="cadastrar_dispositivo()">Cadastrar</button>

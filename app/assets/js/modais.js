@@ -161,6 +161,7 @@ function abrirModalDispositivo(id = null) {
     };
     const entradasPorModelo = { A4: 4, A8: 8, A16: 16 };
     const tipoSelect = document.querySelector('#dispositivoTipo');
+    const entradasContainer = document.getElementById('entradasContainer');
     const modeloSelect = document.querySelector('#dispositivoModelo');
 
     function atualizarCamposDigitais(modelo) {
@@ -197,11 +198,22 @@ function abrirModalDispositivo(id = null) {
         atualizarCamposDigitais(selecionado || modeloSelect.value);
     }
 
+    function toggleEntradasContainer(tipo) {
+        if (!entradasContainer) return;
+        if (tipo === 'Central de monitoramento') {
+            entradasContainer.style.display = '';
+        } else {
+            entradasContainer.style.display = 'none';
+        }
+    }
+
     tipoSelect.onchange = () => {
         atualizarModelos(tipoSelect.value);
+        toggleEntradasContainer(tipoSelect.value);
     };
     modeloSelect.onchange = () => atualizarCamposDigitais(modeloSelect.value);
     atualizarModelos(tipoSelect.value);
+    toggleEntradasContainer(tipoSelect.value);
     
     // Limpa os campos das entradas digitais (di01 até di16 caso existam)
     for (let i = 1; i <= 16; i++) {
@@ -266,6 +278,7 @@ function abrirModalDispositivo(id = null) {
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
                         atualizarModelos(dispositivo.tipo, dispositivo.modelo);
+                        toggleEntradasContainer(dispositivo.tipo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
                         document.querySelector('#dispositivoMac2').value = dispositivo.mac2;
                         // Preenche o campo do sensor de temperatura
