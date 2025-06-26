@@ -304,6 +304,17 @@ function limparModalDispositivo() {
         if (row) row.style.display = 'none';
     }
 
+    // Limpa entradas analógicas (ai01 a ai04 caso existam)
+    for (let i = 1; i <= 4; i++) {
+        const index = '0' + i; // sempre com zero à esquerda
+        const nomeEl = document.querySelector('#ai' + index + '_nome');
+        const tipoEl = document.querySelector('#ai' + index + '_tipo');
+        if (nomeEl) nomeEl.value = '';
+        if (tipoEl) tipoEl.value = '';
+        const row = nomeEl ? nomeEl.closest('.form-row') : null;
+        if (row) row.style.display = 'none';
+    }
+
     // Também limpa o select de piscina
     const piscinaSelect = document.querySelector('#dispositivoPiscina');
     if (piscinaSelect) piscinaSelect.value = '';
