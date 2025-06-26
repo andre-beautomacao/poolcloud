@@ -18,7 +18,6 @@ if (isset($_POST['id'])) {
     $stmt = $pdo->prepare("
         SELECT 
             dispositivos.id, 
-            dispositivos.nome, 
             dispositivos.tipo, 
             dispositivos.modelo, 
             dispositivos.mac1, 

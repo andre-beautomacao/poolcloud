@@ -16,7 +16,6 @@ try {
         $sql = "
             SELECT 
                 d.id AS dispositivo_id,
-                d.nome AS dispositivo_nome,
                 d.mac1,
                 d.mac2,
                 d.temp_habilitada,
@@ -55,7 +54,6 @@ try {
         $sql = "
             SELECT 
                 d.id AS dispositivo_id,
-                d.nome AS dispositivo_nome,
                 d.mac1,
                 d.mac2,
                 d.temp_habilitada,

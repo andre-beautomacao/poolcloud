@@ -10,14 +10,12 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 // Verifica se os campos obrigatórios foram enviados
 if (
-    isset($_POST['nome']) &&
     isset($_POST['tipo']) &&
     isset($_POST['modelo']) &&
     isset($_POST['mac1']) &&
     isset($_POST['mac2']) &&
     isset($_POST['piscina_id'])
 ) {
-    $nome = trim($_POST['nome']);
     $tipo = trim($_POST['tipo']);
     $modelo = trim($_POST['modelo']);
     $mac1 = trim($_POST['mac1']);
@@ -70,23 +68,21 @@ if (
 
     // Insere os dados na tabela dispositivos, incluindo o novo campo temp_habilitada
     $queryInserir = "
-        INSERT INTO dispositivos 
-        (usuario_id, nome, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
+
+        INSERT INTO dispositivos
+        (usuario_id, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
          di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
          di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo,
-         di07_nome, di07_tipo, di08_nome, di08_tipo,
-         ai01_funcao, ai02_funcao, ai03_funcao, ai04_funcao)
+         di07_nome, di07_tipo, di08_nome, di08_tipo)
         VALUES
-        (:usuario_id, :nome, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada,
+        (:usuario_id, :tipo, :modelo, :mac1, :mac2, :piscina_id, :temp_habilitada,
          :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
          :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
-         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo,
-         :ai01_funcao, :ai02_funcao, :ai03_funcao, :ai04_funcao)
+         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
     ";
 
     $stmtInserir = $pdo->prepare($queryInserir);
     $stmtInserir->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmtInserir->bindParam(':nome', $nome);
     $stmtInserir->bindParam(':tipo', $tipo);
     $stmtInserir->bindParam(':modelo', $modelo);
     $stmtInserir->bindParam(':mac1', $mac1);

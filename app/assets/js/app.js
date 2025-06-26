@@ -2200,7 +2200,6 @@ function cadastrar_piscina() {
     });
 }
 function cadastrar_dispositivo() {
-    const dispositivoNome = document.getElementById('dispositivoNome').value;
     const dispositivoTipo = document.getElementById('dispositivoTipo').value;
     const dispositivoModelo = document.getElementById('dispositivoModelo').value;
     const mac1 = document.getElementById('dispositivoMac1').value;
@@ -2209,7 +2208,7 @@ function cadastrar_dispositivo() {
     const tempHabilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Validação dos campos principais
-    if (!dispositivoNome || !dispositivoTipo || !dispositivoModelo || !mac1 || !mac2 || !piscinaID) {
+    if (!dispositivoTipo || !dispositivoModelo || !mac1 || !mac2 || !piscinaID) {
         Swal.fire('Erro!', 'Preencha todos os campos!', 'error');
         return;
     }
@@ -2223,7 +2222,6 @@ function cadastrar_dispositivo() {
 
     // Cria o FormData e adiciona os campos principais
     const formData = new FormData();
-    formData.append('nome', dispositivoNome);
     formData.append('tipo', dispositivoTipo);
     formData.append('modelo', dispositivoModelo);
     formData.append('mac1', mac1);
@@ -2395,7 +2393,6 @@ function limparModal() {
 function limparModalDispositivo() {
     document.querySelector('#dispositivoID').value = '';
     document.querySelector('#dispositivoPiscinaID').value = '';
-    document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
     const modeloSelect = document.querySelector('#dispositivoModelo');
     if (modeloSelect) modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
@@ -2593,7 +2590,6 @@ function editar_piscina() {
 function editar_dispositivo() {
     // Recupera os dados principais
     let id = document.querySelector('#dispositivoID').value;
-    let nome = document.querySelector('#dispositivoNome').value;
     let tipo = document.querySelector('#dispositivoTipo').value;
     let modelo = document.querySelector('#dispositivoModelo').value;
     let mac1 = document.querySelector('#dispositivoMac1').value;
@@ -2602,7 +2598,7 @@ function editar_dispositivo() {
     let temp_habilitada = document.querySelector('#dispositivoTempHabilitada').checked ? 1 : 0;
 
     // Verifica se os campos obrigatórios estão preenchidos
-    if (!id || !nome || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
+    if (!id || !tipo || !modelo || !mac1 || !mac2 || !piscina_id) {
         Swal.fire('Erro!', 'Preencha todos os campos obrigatórios!', 'error');
         return;
     }
@@ -2630,7 +2626,6 @@ function editar_dispositivo() {
         async: true,
         data: Object.assign({
             id: id,
-            nome: nome,
             tipo: tipo,
             modelo: modelo,
             mac1: mac1,
@@ -3130,7 +3125,6 @@ function abrirModalDispositivo(id = null) {
     document.querySelector('#dispositivoID').value = '';
 >>>>>>> main
     document.querySelector('#dispositivoPiscinaID').value = '';
-    document.querySelector('#dispositivoNome').value = '';
     document.querySelector('#dispositivoTipo').value = '';
     document.querySelector('#dispositivoModelo').value = '';
     document.querySelector('#dispositivoMac1').value = '';
@@ -3246,7 +3240,6 @@ if (typeof atualizarFieldsetsPorTipo === 'function') {
                         // Preenche os campos principais do dispositivo
                         document.querySelector('#dispositivoID').value = dispositivo.id;
                         document.querySelector('#dispositivoPiscinaID').value = dispositivo.piscina_id;
-                        document.querySelector('#dispositivoNome').value = dispositivo.nome;
                         document.querySelector('#dispositivoTipo').value = dispositivo.tipo;
                         atualizarModelos(dispositivo.tipo, dispositivo.modelo);
                         document.querySelector('#dispositivoMac1').value = dispositivo.mac1;
