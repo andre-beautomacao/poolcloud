@@ -12,7 +12,8 @@ if ($_POST) {
         $nome = trim($_POST['nome']);
         $email = trim($_POST['email']);
         $telefone = trim($_POST['telefone']);
-        $senha = md5($_POST['senha']);
+        // Hash de senha usando password_hash
+        $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
 
         // Prepara a consulta com placeholders
         $insert = $pdo->prepare("INSERT INTO usuarios (nome, email, telefone, senha) VALUES (:nome, :email, :telefone, :senha)");

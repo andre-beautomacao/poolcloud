@@ -31,8 +31,8 @@ if (isset($_POST['nome'], $_POST['email'])) {
 
         // Se uma nova senha foi fornecida, atualize a senha
         if ($novaSenha) {
-            // Use MD5 ou outro método de hash para proteger a senha (MD5 é um exemplo simples, use bcrypt ou algo mais seguro em produção)
-            $senhaHashed = md5($novaSenha);
+            // Utiliza password_hash para armazenar a senha de forma segura
+            $senhaHashed = password_hash($novaSenha, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("UPDATE usuarios SET senha = :senha WHERE id = :usuarioID");
             $stmt->bindParam(':senha', $senhaHashed);
             $stmt->bindParam(':usuarioID', $usuarioID);

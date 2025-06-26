@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($sql->rowCount() === 1) {
         $usuario = $sql->fetch();
-        $novaSenhaHash = md5($novaSenha); // ← em vez de password_hash()
+        // Gera novo hash de senha de forma segura
+        $novaSenhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("UPDATE usuarios SET senha = :senha, token_recuperacao = NULL, token_expira = NULL WHERE id = :id");
         $stmt->bindParam(':senha', $novaSenhaHash);
         $stmt->bindParam(':id', $usuario['id']);
