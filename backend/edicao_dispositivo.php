@@ -9,9 +9,8 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 if ($_POST) {
     // Verifica se os campos obrigatórios foram enviados
-    if (isset($_POST['id'], $_POST['nome'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['mac2'], $_POST['piscina_id'])) {
+    if (isset($_POST['id'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['mac2'], $_POST['piscina_id'])) {
         $id = trim($_POST['id']);
-        $nome = trim($_POST['nome']);
         $tipo = trim($_POST['tipo']);
         $modelo = trim($_POST['modelo']);
         $mac1 = trim($_POST['mac1']);
@@ -41,10 +40,9 @@ if ($_POST) {
 
         // Prepara o SQL para atualização do dispositivo, incluindo os campos das entradas digitais.
         $stmt = $pdo->prepare("
-            UPDATE dispositivos SET 
-                nome = :nome, 
-                tipo = :tipo, 
-                modelo = :modelo, 
+            UPDATE dispositivos SET
+                tipo = :tipo,
+                modelo = :modelo,
                 mac1 = :mac1, 
                 mac2 = :mac2, 
                 piscina_id = :piscina_id,
@@ -60,7 +58,6 @@ if ($_POST) {
             WHERE id = :id 
               AND piscina_id IN (SELECT id FROM piscinas WHERE usuario_id = :usuarioID)
         ");
-        $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':tipo', $tipo);
         $stmt->bindParam(':modelo', $modelo);
         $stmt->bindParam(':mac1', $mac1);

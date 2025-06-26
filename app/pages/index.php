@@ -300,10 +300,6 @@ include '../../includes/header.php';
             </select>
             </div>
             <div class="mb-3">
-            <label for="dispositivoNome">Nome</label>
-            <input type="text" id="dispositivoNome" class="form-control">
-            </div>
-            <div class="mb-3">
             <label for="dispositivoTipo">Tipo</label>
             <input type="text" id="dispositivoTipo" class="form-control">
             </div>
