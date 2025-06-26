@@ -3,10 +3,20 @@
 Histórico de mudanças e atualizações no sistema PoolCloud.
 
 ---
+## 📅 [2025-06-26] – Publicação inicial no GitHub
+- Inclusão de todo o código PHP, JavaScript e assets do sistema.
+- Telas de login/cadastro com validações e recuperação de senha.
+- Integração da biblioteca PHPMailer para envio de e-mails.
+
 ## 📅 [2025-04-30] – Indentificado erro na renderização dos gráficos
 - Os gráficos ignoravam os dias sem leituras, renderizando os dados de forma sequencial e sem escala linear.
-    -- Não houve leituras registradas no dia 4. Do dia 3, pulava diretamente para o dia 5. 
-- Tentativa de melhoria: criar um array com todas as datas do mês. 
+    -- Não houve leituras registradas no dia 4. Do dia 3, pulava diretamente para o dia 5.
+- Tentativa de melhoria: criar um array com todas as datas do mês.
+
+- ## 📅 [2025-05-01] – Entradas analógicas configuráveis
+- Adicionadas colunas `ai01_funcao` a `ai04_funcao` na tabela `dispositivos`.
+- Modificados modais e scripts para cadastro e edição de dispositivos.
+- Ajustados endpoints de listagem para expor os novos campos.
 
 ## 📅 [2025-04-30] – Melhoria da página de leituras
 - Criação do campo temp_habilitada na tabela dispositivos. 

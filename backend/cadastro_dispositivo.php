@@ -57,10 +57,18 @@ if (
         $digitalInputs["di{$index}_tipo"] = isset($_POST["di{$index}_tipo"]) ? intval($_POST["di{$index}_tipo"]) : 0;
     }
 
+    // Captura os dados das entradas analógicas (ai01 até ai04)
+    $analogInputs = [];
+    for ($i = 1; $i <= 4; $i++) {
+        $index = $i < 10 ? '0' . $i : $i;
+        $analogInputs["ai{$index}_funcao"] = isset($_POST["ai{$index}_funcao"]) ? trim($_POST["ai{$index}_funcao"]) : '';
+    }
+
     $usuario_id = $_SESSION['UsuarioID']; // Obtém o ID do usuário logado
 
     // Insere os dados na tabela dispositivos, incluindo o novo campo temp_habilitada
     $queryInserir = "
+
         INSERT INTO dispositivos
         (usuario_id, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
          di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
@@ -84,6 +92,11 @@ if (
 
     // Vincula os parâmetros das entradas digitais
     foreach ($digitalInputs as $campo => $valor) {
+        $stmtInserir->bindValue(":$campo", $valor);
+    }
+
+    // Vincula os parâmetros das entradas analógicas
+    foreach ($analogInputs as $campo => $valor) {
         $stmtInserir->bindValue(":$campo", $valor);
     }
 
