@@ -121,12 +121,17 @@ function editar_dispositivo() {
         return;
     }
 
-    // Coleta os dados das entradas digitais (di01 até di08)
+    // Coleta apenas os dados das entradas digitais visíveis
     let digitalInputs = {};
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 16; i++) {
         let index = i < 10 ? '0' + i : i;
-        digitalInputs['di' + index + '_nome'] = document.querySelector('#di' + index + '_nome').value;
-        digitalInputs['di' + index + '_tipo'] = document.querySelector('#di' + index + '_tipo').value;
+        const nomeEl = document.querySelector('#di' + index + '_nome');
+        const tipoEl = document.querySelector('#di' + index + '_tipo');
+        if (!nomeEl || !tipoEl) continue;
+        const row = nomeEl.closest('.form-row');
+        if (row && row.style.display === 'none') continue;
+        digitalInputs['di' + index + '_nome'] = nomeEl.value;
+        digitalInputs['di' + index + '_tipo'] = tipoEl.value;
     }
 
     // Envia os dados para o backend via AJAX

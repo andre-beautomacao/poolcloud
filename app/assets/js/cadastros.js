@@ -128,13 +128,16 @@ function cadastrar_dispositivo() {
     formData.append('piscina_id', piscinaID);
     formData.append('temp_habilitada', tempHabilitada); // ✅ Agora está no lugar certo
 
-    // Adiciona os campos das entradas digitais (di01 até di08)
-    for (let i = 1; i <= 8; i++) {
+    // Adiciona apenas os campos das entradas digitais visíveis
+    for (let i = 1; i <= 16; i++) {
         const index = i < 10 ? '0' + i : i;
-        const di_nome = document.getElementById('di' + index + '_nome').value;
-        const di_tipo = document.getElementById('di' + index + '_tipo').value;
-        formData.append('di' + index + '_nome', di_nome);
-        formData.append('di' + index + '_tipo', di_tipo);
+        const nomeEl = document.getElementById('di' + index + '_nome');
+        const tipoEl = document.getElementById('di' + index + '_tipo');
+        if (!nomeEl || !tipoEl) continue;
+        const row = nomeEl.closest('.form-row');
+        if (row && row.style.display === 'none') continue;
+        formData.append('di' + index + '_nome', nomeEl.value);
+        formData.append('di' + index + '_tipo', tipoEl.value);
     }
 
     // Envia os dados para o backend
@@ -293,11 +296,15 @@ function limparModalDispositivo() {
     document.querySelector('#dispositivoMac2').value = '';
     document.querySelector('#dispositivoTempHabilitada').checked = false;
 
-    // Limpa entradas digitais (di01 a di08)
-    for (let i = 1; i <= 8; i++) {
+    // Limpa entradas digitais (di01 a di16 caso existam)
+    for (let i = 1; i <= 16; i++) {
         const index = i < 10 ? '0' + i : i;
-        document.querySelector('#di' + index + '_nome').value = '';
-        document.querySelector('#di' + index + '_tipo').value = '0';
+        const nomeEl = document.querySelector('#di' + index + '_nome');
+        const tipoEl = document.querySelector('#di' + index + '_tipo');
+        if (nomeEl) nomeEl.value = '';
+        if (tipoEl) tipoEl.value = '0';
+        const row = nomeEl ? nomeEl.closest('.form-row') : null;
+        if (row) row.style.display = 'none';
     }
 
     // Também limpa o select de piscina
