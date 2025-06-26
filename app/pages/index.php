@@ -318,10 +318,6 @@ include '../../includes/header.php';
             <label for="dispositivoMac1">MAC 1</label>
             <input type="text" id="dispositivoMac1" class="form-control">
             </div>
-            <div class="mb-3">
-            <label for="dispositivoMac2">MAC 2</label>
-            <input type="text" id="dispositivoMac2" class="form-control">
-            </div>
             <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="dispositivoTempHabilitada">
             <label class="form-check-label" for="dispositivoTempHabilitada">Habilitar Sensor de Temperatura</label>

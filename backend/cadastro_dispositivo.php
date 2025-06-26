@@ -13,19 +13,17 @@ if (
     isset($_POST['tipo']) &&
     isset($_POST['modelo']) &&
     isset($_POST['mac1']) &&
-    isset($_POST['mac2']) &&
     isset($_POST['piscina_id'])
 ) {
     $tipo = trim($_POST['tipo']);
     $modelo = trim($_POST['modelo']);
     $mac1 = trim($_POST['mac1']);
-    $mac2 = trim($_POST['mac2']);
     $piscina_id = intval($_POST['piscina_id']);
     $temp_habilitada = isset($_POST['temp_habilitada']) ? intval($_POST['temp_habilitada']) : 0;
 
     // Valida os endereços MAC (apenas caracteres alfanuméricos e 12 caracteres)
     $macRegex = '/^[0-9A-Fa-f]{12}$/';
-    if (!preg_match($macRegex, $mac1) || !preg_match($macRegex, $mac2)) {
+    if (!preg_match($macRegex, $mac1)) {
         http_response_code(400); // Requisição inválida
         echo 'Os endereços MAC devem conter apenas 12 caracteres alfanuméricos (sem separadores).';
         exit;
@@ -68,6 +66,18 @@ if (
 
     // Insere os dados na tabela dispositivos, incluindo o novo campo temp_habilitada
     $queryInserir = "
+<<<<<<< codex/remove-mac-2-input-and-references
+        INSERT INTO dispositivos
+        (usuario_id, nome, tipo, modelo, mac1, piscina_id, temp_habilitada,
+         di01_nome, di01_tipo, di02_nome, di02_tipo, di03_nome, di03_tipo,
+         di04_nome, di04_tipo, di05_nome, di05_tipo, di06_nome, di06_tipo,
+         di07_nome, di07_tipo, di08_nome, di08_tipo)
+        VALUES
+        (:usuario_id, :nome, :tipo, :modelo, :mac1, :piscina_id, :temp_habilitada,
+         :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
+         :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
+         :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
+=======
 
         INSERT INTO dispositivos
         (usuario_id, tipo, modelo, mac1, mac2, piscina_id, temp_habilitada,
@@ -79,6 +89,7 @@ if (
          :di01_nome, :di01_tipo, :di02_nome, :di02_tipo, :di03_nome, :di03_tipo,
          :di04_nome, :di04_tipo, :di05_nome, :di05_tipo, :di06_nome, :di06_tipo,
          :di07_nome, :di07_tipo, :di08_nome, :di08_tipo)
+>>>>>>> main
     ";
 
     $stmtInserir = $pdo->prepare($queryInserir);
@@ -86,7 +97,6 @@ if (
     $stmtInserir->bindParam(':tipo', $tipo);
     $stmtInserir->bindParam(':modelo', $modelo);
     $stmtInserir->bindParam(':mac1', $mac1);
-    $stmtInserir->bindParam(':mac2', $mac2);
     $stmtInserir->bindParam(':piscina_id', $piscina_id, PDO::PARAM_INT);
     $stmtInserir->bindParam(':temp_habilitada', $temp_habilitada, PDO::PARAM_INT);
 

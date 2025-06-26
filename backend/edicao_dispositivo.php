@@ -9,12 +9,14 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 if ($_POST) {
     // Verifica se os campos obrigatórios foram enviados
-    if (isset($_POST['id'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['mac2'], $_POST['piscina_id'])) {
+    if (isset($_POST['id'], $_POST['nome'], $_POST['tipo'], $_POST['modelo'], $_POST['mac1'], $_POST['piscina_id'])) {
         $id = trim($_POST['id']);
+        $nome = trim($_POST['nome']);
         $tipo = trim($_POST['tipo']);
+
+
         $modelo = trim($_POST['modelo']);
         $mac1 = trim($_POST['mac1']);
-        $mac2 = trim($_POST['mac2']);
         $piscina_id = trim($_POST['piscina_id']);
         $temp_habilitada = isset($_POST['temp_habilitada']) ? intval($_POST['temp_habilitada']) : 0;
 
@@ -50,7 +52,6 @@ if ($_POST) {
                 tipo = :tipo,
                 modelo = :modelo,
                 mac1 = :mac1, 
-                mac2 = :mac2, 
                 piscina_id = :piscina_id,
                 temp_habilitada = :temp_habilitada,
                 di01_nome = :di01_nome, di01_tipo = :di01_tipo,
@@ -71,7 +72,6 @@ if ($_POST) {
         $stmt->bindParam(':tipo', $tipo);
         $stmt->bindParam(':modelo', $modelo);
         $stmt->bindParam(':mac1', $mac1);
-        $stmt->bindParam(':mac2', $mac2);
         $stmt->bindParam(':piscina_id', $piscina_id);
         $stmt->bindParam(':temp_habilitada', $temp_habilitada, PDO::PARAM_INT);
         $stmt->bindParam(':di01_nome', $di01_nome);

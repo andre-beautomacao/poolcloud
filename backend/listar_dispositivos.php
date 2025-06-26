@@ -16,8 +16,8 @@ try {
         $sql = "
             SELECT 
                 d.id AS dispositivo_id,
+                d.nome AS dispositivo_nome,
                 d.mac1,
-                d.mac2,
                 d.temp_habilitada,
                 d.last_ph AS ph,
                 d.last_orp AS orp,
@@ -54,8 +54,8 @@ try {
         $sql = "
             SELECT 
                 d.id AS dispositivo_id,
+                d.nome AS dispositivo_nome,
                 d.mac1,
-                d.mac2,
                 d.temp_habilitada,
                 d.last_ph AS ph,
                 d.last_orp AS orp,
