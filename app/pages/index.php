@@ -332,7 +332,7 @@ include '../../includes/header.php';
             </div>
 
             <!-- Novo campo: Entradas Digitais -->
-            <fieldset class="mb-3">
+            <fieldset class="mb-3" id="digitalFieldset">
             <legend>Entradas Digitais (Defina o nome e o tipo)</legend>
             <!-- Entrada 01 -->
             <div class="form-row">
