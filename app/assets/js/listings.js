@@ -172,9 +172,9 @@ async function listar_piscinas(enderecoID = null) {
 
             const exibirTemperatura = parseInt(temp_habilitada) === 1;
             const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
-            const ph = arredondar(ph, 1);
-            const orp = arredondar(orp, 0);
-            const temperatura = exibirTemperatura ? arredondar(temperatura, 1) + ' °C' : '—';
+            const phVal = arredondar(ph, 1);
+            const orpVal = arredondar(orp, 0);
+            const temperaturaVal = exibirTemperatura ? arredondar(temperatura, 1) + ' °C' : '—';
             const setpointVal = arredondar(setpoint, 0);
             const tensaoVal = arredondar(tensao, 1);
             const correnteVal = arredondar(corrente, 2);
@@ -190,19 +190,19 @@ async function listar_piscinas(enderecoID = null) {
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">pH</span>
-                            <span class="param-value" style="color:#2276c3;">${ph}</span>
+                            <span class="param-value" style="color:#2276c3;">${phVal}</span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">ORP</span>
-                            <span class="param-value" style="color:#b58c0a;">${orp} mV</span>
+                            <span class="param-value" style="color:#b58c0a;">${orpVal} mV</span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">Temperatura</span>
-                            <span class="param-value" style="color:#1ca441;">${temperatura}</span>
+                            <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
                         </div>
                     </div>
                     <div class="col-6">
