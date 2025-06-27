@@ -489,6 +489,7 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
 }
 body.light-theme .device-section-header { background: #f1f3f5; }
 body.dark-theme .device-section-header { background: #252930; color: #f6f8fa; }
+
 .device-section-header button {
     position: absolute;
     top: 50%;
@@ -499,6 +500,7 @@ body.dark-theme .device-section-header { background: #252930; color: #f6f8fa; }
     padding: 0;
     color: inherit;
 }
+
 .device-section-header button.collapsed i {
     transform: rotate(-90deg);
 }
