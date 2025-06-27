@@ -14,7 +14,7 @@ $piscina_id = isset($_GET['piscina_id']) ? intval($_GET['piscina_id']) : null;
 try {
     if ($piscina_id) {
         $sql = "
-            SELECT 
+            SELECT
                 d.id AS dispositivo_id,
                 d.nome AS dispositivo_nome,
                 d.tipo,
@@ -30,6 +30,7 @@ try {
                 d.corrente,
                 d.data_hora,
                 p.nome AS piscina_nome,
+                e.nome AS endereco_nome,
                 d.di01_nome, d.di01_tipo, d.di01_status,
                 d.di02_nome, d.di02_tipo, d.di02_status,
                 d.di03_nome, d.di03_tipo, d.di03_status,
@@ -40,11 +41,11 @@ try {
                 d.di08_nome, d.di08_tipo, d.di08_status
             FROM dispositivos d
             INNER JOIN piscinas p ON d.piscina_id = p.id
+            INNER JOIN enderecos e ON p.endereco_id = e.id
         ";
 
         if (!$is_admin) {
-            $sql .= " INNER JOIN enderecos e ON p.endereco_id = e.id
-                      WHERE e.usuario_id = :usuario_id AND d.piscina_id = :piscina_id";
+            $sql .= " WHERE e.usuario_id = :usuario_id AND d.piscina_id = :piscina_id";
         } else {
             $sql .= " WHERE d.piscina_id = :piscina_id";
         }
@@ -57,7 +58,7 @@ try {
 
     } else {
         $sql = "
-            SELECT 
+            SELECT
                 d.id AS dispositivo_id,
                 d.nome AS dispositivo_nome,
                 d.tipo,
@@ -72,6 +73,8 @@ try {
                 d.tensao,
                 d.corrente,
                 d.data_hora,
+                p.nome AS piscina_nome,
+                e.nome AS endereco_nome,
                 d.di01_nome, d.di01_tipo, d.di01_status,
                 d.di02_nome, d.di02_tipo, d.di02_status,
                 d.di03_nome, d.di03_tipo, d.di03_status,
@@ -81,12 +84,12 @@ try {
                 d.di07_nome, d.di07_tipo, d.di07_status,
                 d.di08_nome, d.di08_tipo, d.di08_status
             FROM dispositivos d
+            INNER JOIN piscinas p ON d.piscina_id = p.id
+            INNER JOIN enderecos e ON p.endereco_id = e.id
         ";
 
         if (!$is_admin) {
-            $sql .= " INNER JOIN piscinas p ON d.piscina_id = p.id
-                      INNER JOIN enderecos e ON p.endereco_id = e.id
-                      WHERE e.usuario_id = :usuario_id";
+            $sql .= " WHERE e.usuario_id = :usuario_id";
         }
 
         $stmt = $pdo->prepare($sql);
