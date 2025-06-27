@@ -2,6 +2,16 @@
 
 Histórico de mudanças e atualizações no sistema PoolCloud.
 
+## 📅 [2025-06-27 11:15] – Listagem dinâmica de dispositivos
+- Inclusão dos campos analógicos **AI01–AI04** em cadastros e listagens.
+- Exibição de inputs condicionais conforme o tipo de dispositivo.
+- Remoção das colunas `aixx_nome` e `aixx_tipo` das tabelas.
+- Ajustes visuais nos cards para destacar informações principais.
+
+## 📅 [2025-06-27] – Hash seguro de senhas
+- Sistema atualizado para utilizar `password_hash()` e `password_verify()`.
+- Adicionado script de migração `migrations/001_update_password_column.sql`.
+
 ## [2025-06-26] 🔑 Variáveis de Ambiente
 O arquivo `backend/db_connect.php` lê os parâmetros de conexão do banco de dados das seguintes variáveis:
 
@@ -9,7 +19,6 @@ O arquivo `backend/db_connect.php` lê os parâmetros de conexão do banco de da
 - `DB_NAME` – nome do banco de dados
 - `DB_USER` – usuário do banco de dados
 - `DB_PASS` – senha do usuário
-
 Caso não estejam definidas, serão utilizados os valores presentes no código como padrão.
 
 ---
@@ -17,16 +26,6 @@ Caso não estejam definidas, serão utilizados os valores presentes no código c
 - Inclusão de todo o código PHP, JavaScript e assets do sistema.
 - Telas de login/cadastro com validações e recuperação de senha.
 - Integração da biblioteca PHPMailer para envio de e-mails.
-
-## 📅 [2025-06-27] – Hash seguro de senhas
-- Sistema atualizado para utilizar `password_hash()` e `password_verify()`.
-- Adicionado script de migração `migrations/001_update_password_column.sql`.
-
-## 📅 [2025-06-27 11:15] – Listagem dinâmica de dispositivos
-- Inclusão dos campos analógicos **AI01–AI04** em cadastros e listagens.
-- Exibição de inputs condicionais conforme o tipo de dispositivo.
-- Remoção das colunas `aixx_nome` e `aixx_tipo` das tabelas.
-- Ajustes visuais nos cards para destacar informações principais.
 
 ## 📅 [2025-04-30] – Indentificado erro na renderização dos gráficos
 - Os gráficos ignoravam os dias sem leituras, renderizando os dados de forma sequencial e sem escala linear.
