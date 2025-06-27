@@ -22,6 +22,12 @@ Caso não estejam definidas, serão utilizados os valores presentes no código c
 - Sistema atualizado para utilizar `password_hash()` e `password_verify()`.
 - Adicionado script de migração `migrations/001_update_password_column.sql`.
 
+## 📅 [2025-06-27 11:15] – Listagem dinâmica de dispositivos
+- Inclusão dos campos analógicos **AI01–AI04** em cadastros e listagens.
+- Exibição de inputs condicionais conforme o tipo de dispositivo.
+- Remoção das colunas `aixx_nome` e `aixx_tipo` das tabelas.
+- Ajustes visuais nos cards para destacar informações principais.
+
 ## 📅 [2025-04-30] – Indentificado erro na renderização dos gráficos
 - Os gráficos ignoravam os dias sem leituras, renderizando os dados de forma sequencial e sem escala linear.
     -- Não houve leituras registradas no dia 4. Do dia 3, pulava diretamente para o dia 5.
