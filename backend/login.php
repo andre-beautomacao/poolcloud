@@ -13,8 +13,15 @@ if ($_POST) {
 
         if ($consulta->rowCount() > 0) {
             $row = $consulta->fetch(PDO::FETCH_ASSOC);
-
-            if (password_verify($senha, $row['senha'])) {
+            $senha_digitada = $senha;
+            $hash_salvo = $row['senha'];
+        
+            // Verifica se a senha é hash forte (password_hash) ou md5
+            if (
+                (strlen($hash_salvo) > 30 && password_verify($senha_digitada, $hash_salvo)) // bcrypt, argon2, etc
+                ||
+                (strlen($hash_salvo) === 32 && md5($senha_digitada) === $hash_salvo) // md5 antigo
+            ) {
                 session_start();
                 $_SESSION['UsuarioID'] = $row['id'];
                 $_SESSION['UsuarioEmail'] = $row['email'];
@@ -24,6 +31,7 @@ if ($_POST) {
                 exit;
             }
         }
+
 
         echo 0;
         exit;
