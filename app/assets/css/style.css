@@ -493,11 +493,13 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     top: 50%;
     left: 8px;
     transform: translateY(-50%);
+
     background: none;
     border: none;
     padding: 0;
     color: inherit;
 }
+
 .device-section-header button.collapsed i {
     transform: rotate(-90deg);
 }
