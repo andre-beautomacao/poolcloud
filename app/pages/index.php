@@ -78,6 +78,9 @@ include '../../includes/header.php';
             <button class="btn btn-secondary list-group-item list-group-item-action mb-2" id="btnDispositivos">
                 <i class="fas fa-microchip"></i> Dispositivos
             </button>
+            <a href="compartilhamentos.php" class="btn btn-secondary list-group-item list-group-item-action mb-2" id="btnCompartilhamentos">
+                <i class="fas fa-share-alt"></i> Compartilhamentos
+            </a>
         </div>
     </div>
 
