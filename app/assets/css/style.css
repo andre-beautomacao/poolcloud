@@ -478,3 +478,22 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
   }
 }
 
+/* ---------- Seções de dispositivos nos cards das piscinas ---------- */
+.device-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.device-section-header button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+}
+.device-section-body {
+    margin-top: 8px;
+}
+
+
