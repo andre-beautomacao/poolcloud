@@ -155,109 +155,161 @@ async function listar_piscinas(enderecoID = null) {
         }
 
         // Monta slides swiper
-        piscinas.forEach((piscina, idx) => {
-            const {
-                piscina_id,
-                piscina_nome,
-                endereco_nome,
-                ph,
-                orp,
-                temperatura,
-                setpoint,
-                tensao,
-                corrente,
-                data_hora_automatic,
-                temp_habilitada
-            } = piscina;
+        for (const piscina of piscinas) {
+            const { piscina_id, piscina_nome, endereco_nome } = piscina;
 
-            const exibirTemperatura = parseInt(temp_habilitada) === 1;
-            const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
-            const phVal = arredondar(ph, 1);
-            const orpVal = arredondar(orp, 0);
-            const temperaturaVal = exibirTemperatura ? arredondar(temperatura, 1) + ' °C' : '—';
-            const setpointVal = arredondar(setpoint, 0);
-            const tensaoVal = arredondar(tensao, 1);
-            const correnteVal = arredondar(corrente, 2);
+            let dispositivos = [];
+            try {
+                const resp = await fetch(`../../backend/listar_dispositivos.php?piscina_id=${piscina_id}`);
+                const dadosDisp = await resp.json();
+                dispositivos = dadosDisp.dispositivos || dadosDisp;
+            } catch (e) {
+                console.error('Erro ao buscar dispositivos da piscina', piscina_id, e);
+            }
 
-            let cardHtml = `
+            let dispositivosHtml = '';
+            dispositivos.forEach(d => {
+                const {
+                    dispositivo_id,
+                    tipo,
+                    ph,
+                    orp,
+                    temperatura,
+                    setpoint,
+                    digipot,
+                    tensao,
+                    corrente,
+                    data_hora,
+                    temp_habilitada
+                } = d;
+
+                const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
+                const tempHabilitada = parseInt(temp_habilitada) === 1;
+                const temperaturaVal = tempHabilitada ? arredondar(temperatura, 1) + ' °C' : '—';
+                const phRow = d.tipo && d.tipo.toLowerCase().includes('gerador de cloro') ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">pH</span>
+                                <span class="param-value" style="color:#2276c3;">${arredondar(ph,1)}</span>
+                            </div>
+                        </div>`;
+
+                const orpRow = d.tipo && d.tipo.toLowerCase().includes('gerador de cloro') ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">ORP</span>
+                                <span class="param-value" style="color:#b58c0a;">${arredondar(orp,0)} mV</span>
+                            </div>
+                        </div>`;
+
+                const isCentral = tipo === 'Central de monitoramento';
+
+                const setpointRow = isCentral ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Setpoint</span>
+                                <span class="param-value">${arredondar(setpoint,0)}</span>
+                            </div>
+                        </div>`;
+
+                const digipotRow = isCentral ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Digipot</span>
+                                <span class="param-value">${arredondar(digipot,0)}</span>
+                            </div>
+                        </div>`;
+
+                const tensaoRow = isCentral ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Tensão</span>
+                                <span class="param-value">${arredondar(tensao,1)} V</span>
+                            </div>
+                        </div>`;
+
+                const correnteRow = isCentral ? '' : `
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Corrente</span>
+                                <span class="param-value">${arredondar(corrente,2)} A</span>
+                            </div>
+                        </div>`;
+
+                const digitalInputsHtml = tipo && tipo.toLowerCase().includes('gerador de cloro') ? '' : `
+                    <div class="entradas-digitais-label fw-bold mb-1 text-center">Equipamentos:</div>
+                    <div class="row parametros-row g-2">
+                        ${[1,2,3,4,5,6,7,8].map(i => {
+                            const nome = d[`di${String(i).padStart(2, '0')}_nome`];
+                            const status = d[`di${String(i).padStart(2, '0')}_status`];
+                            if (nome && nome.trim() !== '') {
+                                return `
+                                <div class="col-6">
+                                    <div class="digital-card">
+                                        <span class="digital-nome">${nome}</span>
+                                        <span class="digital-icon"><i class="fas fa-plug" style="color:${status == 1 ? '#1ca441' : '#888'};"></i></span>
+                                        <span class="digital-status ${status == 1 ? 'status-ligado' : 'status-desligado'}">${status == 1 ? 'Ligado' : 'Desligado'}</span>
+                                    </div>
+                                </div>`;
+                            }
+                            return '';
+                        }).join('')}
+                    </div>`;
+
+                const unique = `device-body-${piscina_id}-${dispositivo_id}`;
+                const deviceBody = `
+                    <div class="row parametros-row g-2 mb-3">
+                        ${phRow}
+                        ${orpRow}
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Temperatura</span>
+                                <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
+                            </div>
+                        </div>
+                        ${setpointRow}
+                        ${digipotRow}
+                        ${tensaoRow}
+                        ${correnteRow}
+                        <div class="col-6">
+                            <div class="param-card">
+                                <span class="param-label">Última Leitura</span>
+                                <span class="param-value" style="font-size:0.96em;">${data_hora ? new Date(data_hora).toLocaleString() : '—'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    ${digitalInputsHtml}`;
+
+                dispositivosHtml += `
+                    <div class="device-section">
+                        <div class="device-section-header">
+                            <span class="fw-bold">${tipo || 'Dispositivo'}</span>
+                            <button class="btn btn-link p-0" data-toggle="collapse" data-target="#${unique}" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                        <div id="${unique}" class="collapse device-section-body">
+                            ${deviceBody}
+                        </div>
+                    </div>`;
+            });
+
+            if (!dispositivosHtml) {
+                dispositivosHtml = '<p class="text-center mb-2">Nenhum dispositivo cadastrado.</p>';
+            }
+
+            const cardHtml = `
             <div class="pool-card position-relative">
                 <div class="d-flex flex-column align-items-center text-center card-header-top">
                     <h5 class="mb-0">${piscina_nome || 'Piscina sem nome'}</h5>
                     <span class="small text-muted mb-2">${endereco_nome || 'Endereço não especificado'}</span>
                 </div>
                 <hr class="my-2">
-                <div class="row parametros-row g-2 mb-3">
-                    <div class="col-6">
-                        <div class="param-card">
-
-                            <span class="param-label">pH</span>
-                            <span class="param-value" style="color:#2276c3;">${phVal}</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">ORP</span>
-                            <span class="param-value" style="color:#b58c0a;">${orpVal} mV</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Temperatura</span>
-
-                            <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
-
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Setpoint</span>
-                            <span class="param-value">${setpointVal}</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Tensão</span>
-                            <span class="param-value">${tensaoVal} V</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Corrente</span>
-                            <span class="param-value">${correnteVal} A</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Última Leitura</span>
-                            <span class="param-value" style="font-size:0.96em;">${data_hora_automatic ? new Date(data_hora_automatic).toLocaleString() : '—'}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="entradas-digitais-label fw-bold mb-1 text-center">Equipamentos:</div>
-                <div class="row parametros-row g-2">
-                    ${[1,2,3,4,5,6,7,8].map(i => {
-                        const nome = piscina[`di${String(i).padStart(2, '0')}_nome`];
-                        const status = piscina[`di${String(i).padStart(2, '0')}_status`];
-                        if (nome && nome.trim() !== '') {
-                            return `
-                            <div class="col-6">
-                                <div class="digital-card">
-                                    <span class="digital-nome">${nome}</span>
-                                    <span class="digital-icon"><i class="fas fa-plug" style="color:${status == 1 ? '#1ca441' : '#888'};"></i></span>
-                                    <span class="digital-status ${status == 1 ? 'status-ligado' : 'status-desligado'}">${status == 1 ? 'Ligado' : 'Desligado'}</span>
-                                </div>
-                            </div>`;
-                        }
-                        return '';
-                    }).join('')}
-                </div>
+                ${dispositivosHtml}
                 <div class="d-flex justify-content-around align-items-center mt-3 gap-3">
                     <i class="fas fa-cogs text-success pointer" title="Editar" onclick="abrirModalPiscina(${piscina_id})"></i>
                     <i class="fas fa-chart-line text-primary pointer" title="Leituras automáticas" onclick="abrirLeiturasGuiaNova(${piscina_id})"></i>
                     <i class="fas fa-trash text-danger pointer" title="Excluir" onclick="deletar_piscina(${piscina_id})"></i>
                 </div>
-            </div>
-            `;
+            </div>`;
 
             if (piscinasWrapper) {
                 const slide = document.createElement('div');
@@ -265,7 +317,7 @@ async function listar_piscinas(enderecoID = null) {
                 slide.innerHTML = cardHtml;
                 piscinasWrapper.appendChild(slide);
             }
-        });
+        }
 
         // Swiper destroy/recreate
         if (window.swiperPiscinas && typeof window.swiperPiscinas.destroy === "function") {
