@@ -26,12 +26,12 @@ try {
             piscinas p
         JOIN
             enderecos e ON p.endereco_id = e.id
-        LEFT JOIN compartilhamentos c ON c.tipo_item='piscina' AND c.id_item=p.id AND c.id_destino=:usuarioID AND c.permissao IN ('visualizar','editar','admin')
-        WHERE 1 = 1";
+        WHERE 1 = 1
+    ";
 
     // 🔒 Filtro de segurança para usuários comuns
     if (!$isAdmin) {
-        $sql .= " AND (e.usuario_id = :usuarioID OR c.id IS NOT NULL)";
+        $sql .= " AND e.usuario_id = :usuarioID";
     }
 
     if ($enderecoID) {
@@ -40,11 +40,8 @@ try {
 
     $stmt = $pdo->prepare($sql);
 
-    // Parâmetro sempre utilizado na junção de compartilhamentos
-    $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
-
     if (!$isAdmin) {
-        // Já foi associado acima
+        $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
     }
 
     if ($enderecoID) {

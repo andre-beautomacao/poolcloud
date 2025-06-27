@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'db_connect.php';
-require_once 'permissions.php';
 
 if (!isset($_SESSION['UsuarioID'])) {
     header('location: ../../index.php');
@@ -19,13 +18,8 @@ if ($_POST) {
         $tipo = trim($_POST['tipo']);
         $usuarioID = $_SESSION['UsuarioID'];
 
-        if (!usuarioTemPermissao($pdo, $usuarioID, 'endereco', intval($id), 'editar')) {
-            echo json_encode(['success' => false, 'message' => 'Permissão negada']);
-            exit;
-        }
-
         // Preparar o SQL para atualização
-        $stmt = $pdo->prepare("UPDATE enderecos SET nome = :nome, logradouro = :logradouro, cep = :cep, cidade = :cidade, estado = :estado, tipo = :tipo WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE enderecos SET nome = :nome, logradouro = :logradouro, cep = :cep, cidade = :cidade, estado = :estado, tipo = :tipo WHERE id = :id AND usuario_id = :usuarioID");
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':logradouro', $logradouro);
         $stmt->bindParam(':cep', $cep);
@@ -33,6 +27,7 @@ if ($_POST) {
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':tipo', $tipo);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':usuarioID', $usuarioID);
 
         // Executa o SQL de atualização
         if ($stmt->execute()) {

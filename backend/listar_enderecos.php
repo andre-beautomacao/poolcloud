@@ -13,15 +13,11 @@ $isAdmin = $_SESSION['UsuarioAdmin'] ?? 0;
 
 try {
     if ($isAdmin) {
-        // Admin acessa todos os endereços
+        // Admin: acessa todos os endereços
         $stmt = $pdo->query("SELECT id, nome, tipo, logradouro, cep, cidade, estado FROM enderecos");
     } else {
-        // Inclui endereços compartilhados com permissão de visualização
-        $sql = "SELECT e.id, e.nome, e.tipo, e.logradouro, e.cep, e.cidade, e.estado
-                FROM enderecos e
-                LEFT JOIN compartilhamentos c ON c.tipo_item='endereco' AND c.id_item=e.id AND c.id_destino=:usuarioID AND c.permissao IN ('visualizar','editar','admin')
-                WHERE e.usuario_id = :usuarioID OR c.id IS NOT NULL";
-        $stmt = $pdo->prepare($sql);
+        // Usuário comum: acessa apenas os próprios
+        $stmt = $pdo->prepare("SELECT id, nome, tipo, logradouro, cep, cidade, estado FROM enderecos WHERE usuario_id = :usuarioID");
         $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
         $stmt->execute();
     }

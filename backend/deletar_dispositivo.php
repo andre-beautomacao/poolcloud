@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once 'db_connect.php'; // Inclui a conexão ao banco de dados
-require_once 'permissions.php';
 
 // Verifica se a sessão do usuário está ativa
 if (!isset($_SESSION['UsuarioID'])) {
@@ -11,21 +10,18 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 if ($_POST) {
     if (isset($_POST['dispositivo_id'])) {
-        $dispositivo_id = intval($_POST['dispositivo_id']);
-        $proprietario_id = $_SESSION['UsuarioID'];
+        $dispositivo_id = $_POST['dispositivo_id'];
+        $proprietario_id = $_SESSION['UsuarioID']; // ID do usuário logado
 
-        if (!usuarioTemPermissao($pdo, $proprietario_id, 'dispositivo', $dispositivo_id, 'admin')) {
-            echo json_encode(['success' => false, 'message' => 'Permissão negada.']);
-            exit;
-        }
-
-        $stmt = $pdo->prepare(
-            "SELECT dispositivos.id AS dispositivo_id, piscinas.id AS piscina_id
+        // Verifica se o dispositivo pertence a uma piscina do usuário logado
+        $stmt = $pdo->prepare("
+            SELECT dispositivos.id AS dispositivo_id, piscinas.id AS piscina_id 
             FROM dispositivos
             INNER JOIN piscinas ON dispositivos.piscina_id = piscinas.id
-            WHERE dispositivos.id = :dispositivo_id"
-        );
+            WHERE dispositivos.id = :dispositivo_id AND piscinas.usuario_id = :proprietario_id
+        ");
         $stmt->bindParam(':dispositivo_id', $dispositivo_id);
+        $stmt->bindParam(':proprietario_id', $proprietario_id);
         $stmt->execute();
 
         // Se o dispositivo pertence a uma piscina do usuário logado

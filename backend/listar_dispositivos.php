@@ -45,15 +45,16 @@ try {
         ";
 
         if (!$is_admin) {
-            $sql .= " LEFT JOIN compartilhamentos c ON c.tipo_item='dispositivo' AND c.id_item=d.id AND c.id_destino=:usuario_id AND c.permissao IN ('visualizar','editar','admin')";
-            $sql .= " WHERE (e.usuario_id = :usuario_id OR c.id IS NOT NULL) AND d.piscina_id = :piscina_id";
+            $sql .= " WHERE e.usuario_id = :usuario_id AND d.piscina_id = :piscina_id";
         } else {
             $sql .= " WHERE d.piscina_id = :piscina_id";
         }
 
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':piscina_id', $piscina_id, PDO::PARAM_INT);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        if (!$is_admin) {
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        }
 
     } else {
         $sql = "
@@ -88,12 +89,13 @@ try {
         ";
 
         if (!$is_admin) {
-            $sql .= " LEFT JOIN compartilhamentos c ON c.tipo_item='dispositivo' AND c.id_item=d.id AND c.id_destino=:usuario_id AND c.permissao IN ('visualizar','editar','admin')";
-            $sql .= " WHERE e.usuario_id = :usuario_id OR c.id IS NOT NULL";
+            $sql .= " WHERE e.usuario_id = :usuario_id";
         }
 
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        if (!$is_admin) {
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        }
     }
 
     $stmt->execute();

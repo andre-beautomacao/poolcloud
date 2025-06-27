@@ -1,20 +1,23 @@
 <?php
 
 if ($_POST) {
-    if (isset($_POST['email'])) {
+    if (isset($_POST['login'])) {
         include './db_connect.php';
-        $email = trim($_POST['email']);
+        $login = trim($_POST['login']);
 
-        $stmt = $pdo->prepare('SELECT id FROM usuarios WHERE email = :email');
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+        $sql = $pdo->query("select * from usuarios where login = '$login'");
 
-        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo $row['id'];
-            exit;
+        if ($sql->execute()) {
+            // VERIFICA SE RETORNOU RESULTADO CONTANDO AS LINHAS
+            if ($sql->rowCount() > 0) {
+                echo 1;
+                exit;
+            } else {
+                echo 0;
+                exit;
+            }
         } else {
-            echo 0;
-            exit;
+            echo 'Erro, sql não executou';
         }
     }
 } else {
