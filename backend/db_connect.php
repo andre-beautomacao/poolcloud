@@ -18,6 +18,9 @@ try {
     // Configurar o modo de erro do PDO para exceção
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo "Erro de conexão: " . $e->getMessage();
+    // Em caso de falha na conexão, responda com erro em JSON e encerre
+    http_response_code(500);
+    echo json_encode(['error' => 'Erro de conexão: ' . $e->getMessage()]);
+    exit;
 }
 ?>
