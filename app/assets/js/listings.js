@@ -367,7 +367,6 @@ async function listar_dispositivos(piscinaId = null) {
         dispositivos.forEach((dispositivo) => {
             const {
                 dispositivo_id,
-                dispositivo_nome,
                 mac1,
                 ph,
                 orp,
@@ -378,7 +377,9 @@ async function listar_dispositivos(piscinaId = null) {
                 corrente,
                 data_hora,
                 temp_habilitada,
-                tipo
+                tipo,
+                piscina_nome,
+                endereco_nome
             } = dispositivo;
 
             const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
@@ -466,17 +467,12 @@ async function listar_dispositivos(piscinaId = null) {
             let cardHtml = `
             <div class="pool-card position-relative">
                 <div class="d-flex flex-column align-items-center text-center card-header-top">
-                    <h5 class="mb-0">${dispositivo_nome || 'Dispositivo sem nome'}</h5>
+                    <h5 class="mb-0">${tipo || ''}</h5>
+                    <span class="small fw-semibold">${piscina_nome || ''} - ${endereco_nome || ''}</span>
                     <span class="small text-muted mb-2">${mac1 || '—'}</span>
                 </div>
                 <hr class="my-2">
                 <div class="row parametros-row g-2 mb-3">
-                    <div class="col-6">
-                        <div class="param-card" style="border: 1.5px solid #2276c3; background: #f6faff;">
-                            <span class="param-label">MAC</span>
-                            <span class="param-value" style="font-size:1em; font-family: monospace; letter-spacing:1px;">${mac1 || '—'}</span>
-                        </div>
-                    </div>
                     ${phRow}
                     ${orpRow}
                     <div class="col-6">
