@@ -12,13 +12,16 @@ async function listar_piscinas(enderecoID = null) {
         thead.innerHTML = `
             <tr>
                 <th rowspan="2">Nome e Local</th>
-                <th colspan="4">Leituras Automáticas</th>
+                <th colspan="7">Leituras Automáticas</th>
                 <th rowspan="2">Ações</th>
             </tr>
             <tr>
                 <th>pH</th>
                 <th>ORP (mV)</th>
                 <th>Temperatura (°C)</th>
+                <th>Setpoint (%)</th>
+                <th>Tensão (V)</th>
+                <th>Corrente (A)</th>
                 <th>Data da Leitura</th>
             </tr>
         `;
@@ -62,9 +65,12 @@ async function listar_piscinas(enderecoID = null) {
                 last_cloro_livre,
                 last_alcalinidade,
                 data_hora,
-                last_ph_automatic,
-                last_orp_automatic,
-                last_temperatura_automatic,
+                ph,
+                orp,
+                temperatura,
+                setpoint,
+                tensao,
+                corrente,
                 data_hora_automatic,
                 temp_habilitada,
 
@@ -81,9 +87,12 @@ async function listar_piscinas(enderecoID = null) {
 
             const exibirTemperatura = parseInt(temp_habilitada) === 1;
 
-            const phAutomaticoArredondado = arredondar(last_ph_automatic, 1);
-            const orpAutomaticoArredondado = arredondar(last_orp_automatic, 0);
-            const temperaturaAutomaticoArredondada = arredondar(last_temperatura_automatic, 1);
+            const phAutomaticoArredondado = arredondar(ph, 1);
+            const orpAutomaticoArredondado = arredondar(orp, 0);
+            const temperaturaAutomaticoArredondada = arredondar(temperatura, 1);
+            const setpointVal = arredondar(setpoint, 0);
+            const tensaoVal = arredondar(tensao, 1);
+            const correnteVal = arredondar(corrente, 2);
 
             const tempValorTabela = exibirTemperatura ? `${temperaturaAutomaticoArredondada} °C` : '<span style="color:#999">—</span>';
 
@@ -93,6 +102,9 @@ async function listar_piscinas(enderecoID = null) {
                     <td>${phAutomaticoArredondado}</td>
                     <td>${orpAutomaticoArredondado} mV</td>
                     <td>${tempValorTabela}</td>
+                    <td>${setpointVal}</td>
+                    <td>${tensaoVal} V</td>
+                    <td>${correnteVal} A</td>
                     <td>${data_hora_automatic ? new Date(data_hora_automatic).toLocaleString() : '—'}</td>
                     <td>
                         <i class="fas fa-cogs text-success pointer" title="Editar" onclick="abrirModalPiscina(${piscina_id})"></i>
@@ -112,7 +124,11 @@ async function listar_piscinas(enderecoID = null) {
             if (exibirTemperatura) {
                 leituraCard += `<p class="card-text"><strong>Temperatura:</strong> ${temperaturaAutomaticoArredondada} °C</p>`;
             }
-            leituraCard += `</div>`;
+            leituraCard += `
+                    <p class="card-text"><strong>Setpoint:</strong> ${setpointVal}</p>
+                    <p class="card-text"><strong>Tensão:</strong> ${tensaoVal} V</p>
+                    <p class="card-text"><strong>Corrente:</strong> ${correnteVal} A</p>
+                </div>`;
 
             // Monta bloco das entradas digitais (exibir só se nome não vazio)
             let htmlDigitais = '';
