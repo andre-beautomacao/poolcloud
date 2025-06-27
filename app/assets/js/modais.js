@@ -160,6 +160,7 @@ function abrirModalDispositivo(id = null) {
         'Gerador de cloro - Usina': ['3 kg/dia', '5 kg/dia', '12 kg/dia']
     };
     const entradasPorModelo = { A4: 4, A8: 8, A16: 16 };
+    const analogicosPorModelo = { A4: 2, A8: 4, A16: 4 };
     const tipoSelect = document.querySelector('#dispositivoTipo');
     const entradasContainer = document.getElementById('entradasContainer');
     const modeloSelect = document.querySelector('#dispositivoModelo');
@@ -182,6 +183,24 @@ function abrirModalDispositivo(id = null) {
         }
     }
 
+    function atualizarCamposAnalogicos(modelo) {
+        const total = analogicosPorModelo[modelo] || 0;
+        for (let i = 1; i <= 4; i++) {
+            const index = '0' + i;
+            const nomeEl = document.getElementById('ai' + index + '_nome');
+            const escalaEl = document.getElementById('ai' + index + '_escala');
+            if (!nomeEl || !escalaEl) continue;
+            const row = nomeEl.closest('.form-row');
+            if (i <= total) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+                nomeEl.value = '';
+                escalaEl.value = '';
+            }
+        }
+    }
+
     function atualizarModelos(tipo, selecionado = null) {
         modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
         if (modelosPorTipo[tipo]) {
@@ -196,6 +215,7 @@ function abrirModalDispositivo(id = null) {
             });
         }
         atualizarCamposDigitais(selecionado || modeloSelect.value);
+        atualizarCamposAnalogicos(selecionado || modeloSelect.value);
     }
 
     function toggleEntradasContainer(tipo) {
@@ -211,7 +231,10 @@ function abrirModalDispositivo(id = null) {
         atualizarModelos(tipoSelect.value);
         toggleEntradasContainer(tipoSelect.value);
     };
-    modeloSelect.onchange = () => atualizarCamposDigitais(modeloSelect.value);
+    modeloSelect.onchange = () => {
+        atualizarCamposDigitais(modeloSelect.value);
+        atualizarCamposAnalogicos(modeloSelect.value);
+    };
     atualizarModelos(tipoSelect.value);
     toggleEntradasContainer(tipoSelect.value);
     
@@ -224,6 +247,16 @@ function abrirModalDispositivo(id = null) {
         if (tipoEl) tipoEl.value = '0'; // valor padrão (NA)
     }
     atualizarCamposDigitais(modeloSelect.value);
+
+    // Limpa os campos das entradas analógicas (ai01 até ai04 caso existam)
+    for (let i = 1; i <= 4; i++) {
+        const index = '0' + i;
+        const nomeEl = document.querySelector('#ai' + index + '_nome');
+        const escalaEl = document.querySelector('#ai' + index + '_escala');
+        if (nomeEl) nomeEl.value = '';
+        if (escalaEl) escalaEl.value = '';
+    }
+    atualizarCamposAnalogicos(modeloSelect.value);
     
     // Função para carregar as piscinas no dropdown
     function carregarPiscinas(selectedPiscinaID = null) {
@@ -294,7 +327,17 @@ function abrirModalDispositivo(id = null) {
                             if (tipoEl) tipoEl.value = dispositivo['di' + index + '_tipo'] || '0';
                         }
 
+                        // Preenche as entradas analógicas
+                        for (let i = 1; i <= 4; i++) {
+                            let index = '0' + i;
+                            const nomeEl = document.querySelector('#ai' + index + '_nome');
+                            const escalaEl = document.querySelector('#ai' + index + '_escala');
+                            if (nomeEl) nomeEl.value = dispositivo['ai' + index + '_nome'] || '';
+                            if (escalaEl) escalaEl.value = dispositivo['ai' + index + '_escala'] || '';
+                        }
+
                         atualizarCamposDigitais(dispositivo.modelo);
+                        atualizarCamposAnalogicos(dispositivo.modelo);
 
                         carregarPiscinas(dispositivo.piscina_id);
                     }
