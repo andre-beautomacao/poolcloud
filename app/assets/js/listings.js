@@ -377,7 +377,8 @@ async function listar_dispositivos(piscinaId = null) {
                 tensao,
                 corrente,
                 data_hora,
-                temp_habilitada
+                temp_habilitada,
+                tipo
             } = dispositivo;
 
             const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
@@ -386,67 +387,63 @@ async function listar_dispositivos(piscinaId = null) {
             const tempHabilitada = parseInt(temp_habilitada) === 1;
             const temperaturaVal = tempHabilitada ? arredondar(temperatura, 1) + ' °C' : '—';
             const setpointVal = arredondar(setpoint, 0);
+            const digipotVal = arredondar(digipot, 0);
             const tensaoVal = arredondar(tensao, 1);
             const correnteVal = arredondar(corrente, 2);
             const ultimaLeitura = data_hora ? new Date(data_hora).toLocaleString() : '—';
 
-            let cardHtml = `
-            <div class="pool-card position-relative">
-                <div class="d-flex flex-column align-items-center text-center card-header-top">
-                    <h5 class="mb-0">${dispositivo_nome || 'Dispositivo sem nome'}</h5>
-                    <span class="small text-muted mb-2">${mac1 || '—'}</span>
-                </div>
-                <hr class="my-2">
-                <div class="row parametros-row g-2 mb-3">
-                    <div class="col-6">
-                        <div class="param-card" style="border: 1.5px solid #2276c3; background: #f6faff;">
-                            <span class="param-label">MAC</span>
-                            <span class="param-value" style="font-size:1em; font-family: monospace; letter-spacing:1px;">${mac1 || '—'}</span>
-                        </div>
-                    </div>
+            const isCentral = tipo === 'Central de monitoramento';
+            const isGerador = tipo && tipo.toLowerCase().includes('gerador de cloro');
+
+            const phRow = isGerador ? '' : `
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">pH</span>
                             <span class="param-value" style="color:#2276c3;">${phVal}</span>
                         </div>
-                    </div>
+                    </div>`;
+
+            const orpRow = isGerador ? '' : `
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">ORP</span>
                             <span class="param-value" style="color:#b58c0a;">${orpVal} mV</span>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Temperatura</span>
-                            <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
-                        </div>
-                    </div>
+                    </div>`;
+
+            const setpointRow = isCentral ? '' : `
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">Setpoint</span>
                             <span class="param-value">${setpointVal}</span>
                         </div>
-                    </div>
+                    </div>`;
+
+            const digipotRow = isCentral ? '' : `
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Digipot</span>
+                            <span class="param-value">${digipotVal}</span>
+                        </div>
+                    </div>`;
+
+            const tensaoRow = isCentral ? '' : `
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">Tensão</span>
                             <span class="param-value">${tensaoVal} V</span>
                         </div>
-                    </div>
+                    </div>`;
+
+            const correnteRow = isCentral ? '' : `
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">Corrente</span>
                             <span class="param-value">${correnteVal} A</span>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="param-card">
-                            <span class="param-label">Última Leitura</span>
-                            <span class="param-value" style="font-size:0.96em;">${ultimaLeitura}</span>
-                        </div>
-                    </div>
-                </div>
+                    </div>`;
+
+            const digitalInputsHtml = isGerador ? '' : `
                 <div class="entradas-digitais-label fw-bold mb-1 text-center">Equipamentos:</div>
                 <div class="row parametros-row g-2">
                     ${[1,2,3,4,5,6,7,8].map(i => {
@@ -464,7 +461,42 @@ async function listar_dispositivos(piscinaId = null) {
                         }
                         return '';
                     }).join('')}
+                </div>`;
+
+            let cardHtml = `
+            <div class="pool-card position-relative">
+                <div class="d-flex flex-column align-items-center text-center card-header-top">
+                    <h5 class="mb-0">${dispositivo_nome || 'Dispositivo sem nome'}</h5>
+                    <span class="small text-muted mb-2">${mac1 || '—'}</span>
                 </div>
+                <hr class="my-2">
+                <div class="row parametros-row g-2 mb-3">
+                    <div class="col-6">
+                        <div class="param-card" style="border: 1.5px solid #2276c3; background: #f6faff;">
+                            <span class="param-label">MAC</span>
+                            <span class="param-value" style="font-size:1em; font-family: monospace; letter-spacing:1px;">${mac1 || '—'}</span>
+                        </div>
+                    </div>
+                    ${phRow}
+                    ${orpRow}
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Temperatura</span>
+                            <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
+                        </div>
+                    </div>
+                    ${setpointRow}
+                    ${digipotRow}
+                    ${tensaoRow}
+                    ${correnteRow}
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Última Leitura</span>
+                            <span class="param-value" style="font-size:0.96em;">${ultimaLeitura}</span>
+                        </div>
+                    </div>
+                </div>
+                ${digitalInputsHtml}
                 <div class="d-flex justify-content-around align-items-center mt-3 gap-3">
                     <i class="fas fa-sync-alt text-success pointer" title="Atualizar" onclick="solicitarAtualizacao('${mac1}')"></i>
                     <i class="fas fa-chart-line text-primary pointer" title="Histórico de leituras" onclick="listar_leituras('${mac1}')"></i>
