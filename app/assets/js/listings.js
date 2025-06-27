@@ -189,6 +189,7 @@ async function listar_piscinas(enderecoID = null) {
                 <div class="row parametros-row g-2 mb-3">
                     <div class="col-6">
                         <div class="param-card">
+
                             <span class="param-label">pH</span>
                             <span class="param-value" style="color:#2276c3;">${phVal}</span>
                         </div>
@@ -202,7 +203,9 @@ async function listar_piscinas(enderecoID = null) {
                     <div class="col-6">
                         <div class="param-card">
                             <span class="param-label">Temperatura</span>
+
                             <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
+
                         </div>
                     </div>
                     <div class="col-6">
