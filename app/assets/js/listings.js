@@ -160,18 +160,24 @@ async function listar_piscinas(enderecoID = null) {
                 piscina_id,
                 piscina_nome,
                 endereco_nome,
-                last_ph_automatic,
-                last_orp_automatic,
-                last_temperatura_automatic,
+                ph,
+                orp,
+                temperatura,
+                setpoint,
+                tensao,
+                corrente,
                 data_hora_automatic,
                 temp_habilitada
             } = piscina;
 
             const exibirTemperatura = parseInt(temp_habilitada) === 1;
             const arredondar = (val, casas) => (typeof val === 'number' && !isNaN(val)) ? val.toFixed(casas) : '—';
-            const ph = arredondar(last_ph_automatic, 1);
-            const orp = arredondar(last_orp_automatic, 0);
-            const temperatura = exibirTemperatura ? arredondar(last_temperatura_automatic, 1) + ' °C' : '—';
+            const ph = arredondar(ph, 1);
+            const orp = arredondar(orp, 0);
+            const temperatura = exibirTemperatura ? arredondar(temperatura, 1) + ' °C' : '—';
+            const setpointVal = arredondar(setpoint, 0);
+            const tensaoVal = arredondar(tensao, 1);
+            const correnteVal = arredondar(corrente, 2);
 
             let cardHtml = `
             <div class="pool-card position-relative">
@@ -197,6 +203,24 @@ async function listar_piscinas(enderecoID = null) {
                         <div class="param-card">
                             <span class="param-label">Temperatura</span>
                             <span class="param-value" style="color:#1ca441;">${temperatura}</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Setpoint</span>
+                            <span class="param-value">${setpointVal}</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Tensão</span>
+                            <span class="param-value">${tensaoVal} V</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Corrente</span>
+                            <span class="param-value">${correnteVal} A</span>
                         </div>
                     </div>
                     <div class="col-6">
@@ -345,6 +369,10 @@ async function listar_dispositivos(piscinaId = null) {
                 ph,
                 orp,
                 temperatura,
+                setpoint,
+                digipot,
+                tensao,
+                corrente,
                 data_hora,
                 temp_habilitada
             } = dispositivo;
@@ -354,6 +382,9 @@ async function listar_dispositivos(piscinaId = null) {
             const orpVal = arredondar(orp, 0);
             const tempHabilitada = parseInt(temp_habilitada) === 1;
             const temperaturaVal = tempHabilitada ? arredondar(temperatura, 1) + ' °C' : '—';
+            const setpointVal = arredondar(setpoint, 0);
+            const tensaoVal = arredondar(tensao, 1);
+            const correnteVal = arredondar(corrente, 2);
             const ultimaLeitura = data_hora ? new Date(data_hora).toLocaleString() : '—';
 
             let cardHtml = `
@@ -386,6 +417,24 @@ async function listar_dispositivos(piscinaId = null) {
                         <div class="param-card">
                             <span class="param-label">Temperatura</span>
                             <span class="param-value" style="color:#1ca441;">${temperaturaVal}</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Setpoint</span>
+                            <span class="param-value">${setpointVal}</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Tensão</span>
+                            <span class="param-value">${tensaoVal} V</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="param-card">
+                            <span class="param-label">Corrente</span>
+                            <span class="param-value">${correnteVal} A</span>
                         </div>
                     </div>
                     <div class="col-6">
