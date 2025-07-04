@@ -52,11 +52,11 @@ try {
         }
 
         $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':piscina_id', $piscina_id, PDO::PARAM_INT);
-if (!$is_admin) {
-    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-}
- else {
+        $stmt->bindParam(':piscina_id', $piscina_id, PDO::PARAM_INT);
+        if (!$is_admin) {
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        }
+    } else {
         $sql = "
             SELECT
                 d.id AS dispositivo_id,
@@ -94,8 +94,9 @@ if (!$is_admin) {
         }
 
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    }
+        if (!$is_admin) {
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        }
 
     }
 

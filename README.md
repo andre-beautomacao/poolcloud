@@ -1,6 +1,8 @@
 # 📝 CHANGELOG – PoolCloud
 ## 📅 [2025-07-04] – Correção na listagem de dispositivos
 - Ajustado fechamento de bloco em `listar_dispositivos.php` para evitar erro 500.
+- Corrigida montagem da consulta em `listar_dispositivos.php` quando não há `piscina_id`.
+
 
 
 Histórico de mudanças e atualizações no sistema PoolCloud.
