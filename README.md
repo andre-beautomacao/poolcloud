@@ -1,4 +1,7 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-09] – Ajustes de layout no desktop
+- Padding vertical adicionado aos cards de parâmetros e dispositivos.
+- Grid dos cards centralizado com espaçamento lateral uniforme.
 ## 📅 [2025-07-08] – Correção de alinhamento vertical
 - `.swiper-slide` agora centraliza o conteúdo verticalmente no layout mobile.
 ## 📅 [2025-07-07] – Correção de navegação nas piscinas

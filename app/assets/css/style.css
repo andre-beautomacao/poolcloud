@@ -254,6 +254,7 @@ body.dark-theme .pool-card { background: #20232a !important; }
     display: flex; flex-direction: column; align-items: center; min-height: 75px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     margin-bottom: 0.2rem;
+    padding: 15px 0 10px 0;
 }
 .param-label { font-size: 1em; color: #666; }
 .param-value { font-size: 1.6em; font-weight: bold; margin-top: 4px; }
@@ -265,6 +266,7 @@ body.dark-theme .param-label { color: #ccd6e0 !important; }
     background: #f3f7f5; border-radius: 12px;
     display: flex; flex-direction: column; align-items: center; min-height: 62px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    padding: 15px 0 10px 0;
 }
 body.light-theme .digital-card { background: #f3f7f5 !important; color: #222 !important; }
 body.dark-theme .digital-card { background: #252930 !important; color: #f6f8fa !important; }
@@ -370,10 +372,11 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
         gap: 28px 18px;
         justify-items: center;
         align-items: stretch;
+        justify-content: center;
         width: 100% !important;
         margin: 0 auto !important;
         box-sizing: border-box;
-        padding: 32px 0 !important;
+        padding: 32px 12px !important;
     }
     #piscinasWrapper .swiper-slide,
     #dispositivosWrapper .swiper-slide,
