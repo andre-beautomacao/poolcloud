@@ -333,7 +333,7 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     }
     .swiper-slide {
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        min-height: 360px; background: none; padding: 0; margin: 0 !important;
+        background: none; box-sizing: border-box; padding: 0 4px; margin: 0 !important;
     }
     .pool-card {
         width: 100vw !important; max-width: 100vw !important;

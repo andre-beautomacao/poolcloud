@@ -1,4 +1,6 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-11] – Correção de alinhamento mobile
+- `.swiper-slide` recebeu `padding` lateral e `box-sizing` para centralizar os slides sem afetar a largura dos cards.
 ## 📅 [2025-07-10] – Correção de largura no grid desktop
 - `#piscinasWrapper.swiper-wrapper` e similares agora têm `max-width` de 1200px
   e colunas ajustadas para evitar espaços cinzas nas laterais.
