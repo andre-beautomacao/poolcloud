@@ -1,4 +1,8 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-05] – Compartilhamentos integrados
+- Nova seção "Compartilhamentos" exibida na página principal.
+- Inclusão do script `compartilhamentos.js` em todas as páginas.
+- Modal de compartilhamento adicionado ao `index.php`.
 ## 📅 [2025-07-04] – Correção na listagem de dispositivos
 - Ajustado fechamento de bloco em `listar_dispositivos.php` para evitar erro 500.
 - Corrigida montagem da consulta em `listar_dispositivos.php` quando não há `piscina_id`.

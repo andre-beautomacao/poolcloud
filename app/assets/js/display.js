@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarURL('dispositivos', true);
         mostrarConteudo('containerDispositivos');
     });
+
+    document.getElementById('btnCompartilhamentos')?.addEventListener('click', function () {
+        atualizarNavbar('Compartilhamentos');
+        atualizarURL('compartilhamentos', true);
+        mostrarConteudo('containerCompartilhamentos');
+    });
     
     document.getElementById('btnLeituras')?.addEventListener('click', function () {
         listar_leituras_manuais(); 
@@ -85,6 +91,10 @@ function inicializarConteudoComBaseNaURL() {
         case 'dispositivos':
             mostrarConteudo('containerDispositivos');
             listar_dispositivos(); // Dentro dela já chama atualizarNavbar('Dispositivos', 'dispositivo')
+            break;
+        case 'compartilhamentos':
+            mostrarConteudo('containerCompartilhamentos');
+            atualizarNavbar('Compartilhamentos');
             break;
         case 'home':
         default:
