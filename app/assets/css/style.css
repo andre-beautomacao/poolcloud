@@ -283,6 +283,10 @@ body.dark-theme .digital-icon i { color: #6afea2 !important; }
 body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !important; }
 
 /* Espaçamento para grids internos de cards (piscinas, dispositivos e endereços) */
+.parametros-row {
+    margin-left: 0;
+    margin-right: 0;
+}
 .parametros-row .col-4,
 .parametros-row .col-6,
 .pool-card .parametros-row > .col-6 {
