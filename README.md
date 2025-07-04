@@ -1,4 +1,6 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-06] – Ajuste de padding nos cards
+- Ajuste no padding das colunas dos cards no mobile para evitar vazamento dos quadradinhos.
 ## 📅 [2025-07-05] – Compartilhamentos integrados
 - Nova seção "Compartilhamentos" exibida na página principal.
 - Inclusão do script `compartilhamentos.js` em todas as páginas.

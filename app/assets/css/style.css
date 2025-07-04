@@ -287,6 +287,12 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     margin-left: 0;
     margin-right: 0;
 }
+.parametros-row > .col-4,
+.parametros-row > .col-6,
+.parametros-row > .col-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 .parametros-row .col-4,
 .parametros-row .col-6,
 .pool-card .parametros-row > .col-6 {
