@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
+require_once 'permissions.php';
 
 if (!isset($_SESSION['UsuarioID'])) {
     header('location: ../../index.php');
@@ -20,6 +21,11 @@ if ($_POST) {
         $temp_habilitada = isset($_POST['temp_habilitada']) ? intval($_POST['temp_habilitada']) : 0;
 
         $usuarioID = $_SESSION['UsuarioID'];
+
+        if (!usuarioTemPermissao($pdo, $usuarioID, 'dispositivo', intval($id), 'editar')) {
+            echo json_encode(['success' => false, 'message' => 'Permissão negada']);
+            exit;
+        }
 
         // Captura os dados das entradas digitais (de di01 até di08)
         $di01_nome = isset($_POST['di01_nome']) ? trim($_POST['di01_nome']) : '';
@@ -71,8 +77,7 @@ if ($_POST) {
                 ai02_nome = :ai02_nome, ai02_escala = :ai02_escala,
                 ai03_nome = :ai03_nome, ai03_escala = :ai03_escala,
                 ai04_nome = :ai04_nome, ai04_escala = :ai04_escala
-            WHERE id = :id 
-              AND piscina_id IN (SELECT id FROM piscinas WHERE usuario_id = :usuarioID)
+            WHERE id = :id
         ");
         $stmt->bindParam(':nome', $nome);
         $stmt->bindParam(':tipo', $tipo);
@@ -106,7 +111,6 @@ if ($_POST) {
         $stmt->bindParam(':ai04_nome', $ai04_nome);
         $stmt->bindParam(':ai04_escala', $ai04_escala);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':usuarioID', $usuarioID, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Dispositivo atualizado com sucesso!']);

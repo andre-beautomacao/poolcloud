@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php'; // Inclua a conexão com o banco de dados
+require_once 'permissions.php';
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['UsuarioID'])) {
@@ -10,7 +11,12 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 // Verifica se o endereco_id foi enviado via POST
 if (isset($_POST['endereco_id'])) {
-    $enderecoID = $_POST['endereco_id'];
+    $enderecoID = intval($_POST['endereco_id']);
+
+    if (!usuarioTemPermissao($pdo, $_SESSION['UsuarioID'], 'endereco', $enderecoID, 'admin')) {
+        echo json_encode(['success' => false, 'message' => 'Permissão negada.']);
+        exit;
+    }
 
     // Prepara a consulta para deletar o endereco
     $stmt = $pdo->prepare("DELETE FROM enderecos WHERE id = :enderecoID");
