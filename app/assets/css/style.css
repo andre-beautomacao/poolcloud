@@ -330,7 +330,7 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
         padding-left: 0 !important; padding-right: 0 !important;
     }
     .swiper-slide {
-        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
         min-height: 360px; background: none; padding: 0; margin: 0 !important;
     }
     .pool-card {

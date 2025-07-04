@@ -1,4 +1,6 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-08] – Correção de alinhamento vertical
+- `.swiper-slide` agora centraliza o conteúdo verticalmente no layout mobile.
 ## 📅 [2025-07-07] – Correção de navegação nas piscinas
 - Swiper das piscinas agora atualiza a barra de nome ao trocar de slide.
 - Configuração `slidesPerGroup` ajustada para 1 para navegação mais fluida.
