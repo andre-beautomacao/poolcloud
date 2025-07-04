@@ -94,7 +94,9 @@ if (!$is_admin) {
         }
 
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        if (!$is_admin) {
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        }
     }
 
     $stmt->execute();
