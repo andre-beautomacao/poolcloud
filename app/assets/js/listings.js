@@ -326,6 +326,7 @@ async function listar_piscinas(enderecoID = null) {
 
         window.swiperPiscinas = new Swiper('#swiperPiscinas', {
         slidesPerView: 'auto', // <- Mostra o máximo possível
+        slidesPerGroup: 1,
         spaceBetween: 24,
         centeredSlides: false,
         navigation: {
@@ -348,6 +349,10 @@ async function listar_piscinas(enderecoID = null) {
             centeredSlides: false
             }
         }
+        });
+
+        window.swiperPiscinas.on('slideChange', () => {
+            atualizarBarraNomeSwiper(window.swiperPiscinas.realIndex, piscinas);
         });
 
 

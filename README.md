@@ -1,4 +1,23 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-12] – Ajustes nos cards de parâmetros
+- Largura interna expandida em `.pool-card` reduzindo bordas laterais.
+- Maior espaçamento vertical entre os quadradinhos de parâmetros.
+- Slides mobile agora ocupam toda a altura para centralização vertical.
+## 📅 [2025-07-11] – Correção de alinhamento mobile
+- `.swiper-slide` recebeu `padding` lateral e `box-sizing` para centralizar os slides sem afetar a largura dos cards.
+## 📅 [2025-07-10] – Correção de largura no grid desktop
+- `#piscinasWrapper.swiper-wrapper` e similares agora têm `max-width` de 1200px
+  e colunas ajustadas para evitar espaços cinzas nas laterais.
+## 📅 [2025-07-09] – Ajustes de layout no desktop
+- Padding vertical adicionado aos cards de parâmetros e dispositivos.
+- Grid dos cards centralizado com espaçamento lateral uniforme.
+## 📅 [2025-07-08] – Correção de alinhamento vertical
+- `.swiper-slide` agora centraliza o conteúdo verticalmente no layout mobile.
+## 📅 [2025-07-07] – Correção de navegação nas piscinas
+- Swiper das piscinas agora atualiza a barra de nome ao trocar de slide.
+- Configuração `slidesPerGroup` ajustada para 1 para navegação mais fluida.
+## 📅 [2025-07-06] – Ajuste de padding nos cards
+- Ajuste no padding das colunas dos cards no mobile para evitar vazamento dos quadradinhos.
 ## 📅 [2025-07-05] – Compartilhamentos integrados
 - Nova seção "Compartilhamentos" exibida na página principal.
 - Inclusão do script `compartilhamentos.js` em todas as páginas.

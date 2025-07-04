@@ -15,7 +15,7 @@ body {
     max-width: 100vw;
     margin: 0 auto;
     display: flex;
-    align-items: center;      /* Alinha tudo no centro verticalmente */
+    align-items: center;
     justify-content: space-between;
     min-height: 56px;
     height: 56px;
@@ -217,7 +217,7 @@ body.modal-open #conteudoPrincipal {
     background: var(--card-bg, #fff);
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     border-radius: 18px;
-    padding: 18px 36px 20px 36px;
+    padding: 18px 20px 20px 20px;
     margin-bottom: 12px;
     position: relative;
     z-index: 1;
@@ -253,7 +253,7 @@ body.dark-theme .pool-card { background: #20232a !important; }
     background: #f6f8fa; border-radius: 12px;
     display: flex; flex-direction: column; align-items: center; min-height: 75px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    margin-bottom: 0.2rem;
+    padding: 15px 0 10px 0;
 }
 .param-label { font-size: 1em; color: #666; }
 .param-value { font-size: 1.6em; font-weight: bold; margin-top: 4px; }
@@ -265,6 +265,7 @@ body.dark-theme .param-label { color: #ccd6e0 !important; }
     background: #f3f7f5; border-radius: 12px;
     display: flex; flex-direction: column; align-items: center; min-height: 62px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    padding: 15px 0 10px 0;
 }
 body.light-theme .digital-card { background: #f3f7f5 !important; color: #222 !important; }
 body.dark-theme .digital-card { background: #252930 !important; color: #f6f8fa !important; }
@@ -287,16 +288,37 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     margin-left: 0;
     margin-right: 0;
 }
+.parametros-row > .col-4,
+.parametros-row > .col-6,
+.parametros-row > .col-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* CORREÇÃO DE ESPAÇO ENTRE CARDS INTERNOS */
+/* Espaçamento vertical sempre entre param-cards (mobile e desktop) */
+.parametros-row > .col-6 {
+    margin-bottom: 14px;
+}
+/* Remove espaço da última linha se for par */
+.parametros-row > .col-6:nth-last-child(-n+2) {
+    margin-bottom: 0 !important;
+}
+/* Remove espaço se for último card isolado (ímpar) */
+.parametros-row > .col-6:last-child {
+    margin-bottom: 0 !important;
+}
+
 .parametros-row .col-4,
 .parametros-row .col-6,
 .pool-card .parametros-row > .col-6 {
-    margin-bottom: 10px;
+    /* Removido margin-bottom: 14px; daqui para não duplicar espaçamento */
 }
 /* Espaço nos campos de endereço (uma linha) */
 .parametros-row .col-12 {
     flex: 0 0 100%;
     max-width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
 }
 .parametros-row .col-12:last-child {
     margin-bottom: 0;
@@ -307,34 +329,41 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     margin-bottom: 8px !important;
     margin-top: 0 !important;
 }
-/* Garante que o último item não tenha espaço extra abaixo */
-.parametros-row .col-6:last-child,
-.pool-card .parametros-row > .col-6:last-child {
-    margin-bottom: 0;
-}
 
 /* -------- SWIPER E GRID RESPONSIVO -------- */
 
-/* MOBILE: Swiper puro */
+/* MOBILE: Centralização horizontal do pool-card e espaçamento interno */
 @media (max-width: 900px) {
     .swiper-container, #swiperPiscinas, #swiperDispositivos, #swiperEnderecos {
         position: relative;
-        width: 100vw; max-width: 100vw; min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100vw; max-width: 100vw;
+        min-height: calc(100vh - 120px); /* Ajuste conforme header/footer fixo */
         margin-top: 10px; overflow: visible;
-        padding-left: 0 !important; padding-right: 0 !important;
     }
     .swiper-slide {
-        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-        min-height: 360px; background: none; padding: 0; margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;   /* Centraliza horizontal */
+        justify-content: flex-start;
+        height: auto;          /* Não força altura */
+        margin: 0 !important;
+        padding: 0 !important;
     }
     .pool-card {
-        width: 100vw !important; max-width: 100vw !important;
-        border-radius: 0 !important;
-        margin: 0 !important; padding: 10px 2px 14px 2px; box-sizing: border-box !important;
+        width: 94vw !important;
+        max-width: 430px !important;
+        margin: 0 auto 16px auto !important;  /* Centraliza horizontal e dá espaço abaixo */
+        border-radius: 12px !important;
+        padding: 10px 8px 14px 8px;
+        box-sizing: border-box !important;
     }
     .param-card, .digital-card {
         min-width: 47vw; max-width: 48vw; min-height: 96px;
-        margin-bottom: 4px; border-radius: 14px; padding: 15px 0 10px 0; box-sizing: border-box;
+        border-radius: 14px; padding: 15px 0 10px 0; box-sizing: border-box;
     }
     .col-12, .row, .g-2, .mb-4 {
         margin: 0 !important; padding: 0 !important;
@@ -343,7 +372,7 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     .swiper-arrow { display: flex !important; }
 }
 
-/* DESKTOP: GRID de cards (não mais flex/swiper) */
+/* DESKTOP: Espaço entre cards internos e grid de cards */
 @media (min-width: 900px) {
     .container-fluid, #containerPiscinas.col-12, #containerDispositivos.col-12, #containerEnderecos.col-12, #conteudoPrincipal.row,
     .swiper-container, #swiperPiscinas, #swiperDispositivos, #swiperEnderecos {
@@ -355,19 +384,20 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
         max-width: 100vw !important;
         box-sizing: border-box !important;
     }
-    /* GRID para o swiper-wrapper dos cards */
     #piscinasWrapper.swiper-wrapper,
     #dispositivosWrapper.swiper-wrapper,
     #enderecosWrapper.swiper-wrapper {
         display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
         gap: 28px 18px;
         justify-items: center;
         align-items: stretch;
+        justify-content: center;
         width: 100% !important;
+        max-width: 1200px;
         margin: 0 auto !important;
         box-sizing: border-box;
-        padding: 32px 0 !important;
+        padding: 32px 12px !important;
     }
     #piscinasWrapper .swiper-slide,
     #dispositivosWrapper .swiper-slide,
@@ -420,7 +450,6 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     z-index: 1050;
 }
 @media (max-width: 900px) {
-  /* Só para Locais: ocupa 100% do card */
   .row-locais .col-12 {
     width: 100vw !important;
     max-width: 100vw !important;
@@ -440,14 +469,14 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
 .modal-dialog {
     max-width: 470px;
     margin: 1.7rem auto;
-    width: 100%; /* Para forçar o ajuste horizontal em telas menores */
+    width: 100%;
 }
 
 @media (max-width: 600px) {
     .modal-dialog {
         max-width: 97vw;
         width: 97vw;
-        margin: 10px auto;      /* Deixa o modal bem colado nas bordas */
+        margin: 10px auto;
     }
     .modal-content {
         border-radius: 14px;
@@ -512,4 +541,4 @@ body.dark-theme .device-section-header { background: #252930; color: #f6f8fa; }
     margin-top: 6px;
 }
 
-
+/* Fim do CSS */
