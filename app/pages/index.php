@@ -78,9 +78,9 @@ include '../../includes/header.php';
             <button class="btn btn-secondary list-group-item list-group-item-action mb-2" id="btnDispositivos">
                 <i class="fas fa-microchip"></i> Dispositivos
             </button>
-            <a href="compartilhamentos.php" class="btn btn-secondary list-group-item list-group-item-action mb-2" id="btnCompartilhamentos">
+            <button class="btn btn-secondary list-group-item list-group-item-action mb-2" id="btnCompartilhamentos">
                 <i class="fas fa-share-alt"></i> Compartilhamentos
-            </a>
+            </button>
         </div>
     </div>
 
@@ -154,9 +154,62 @@ include '../../includes/header.php';
                     <!-- Cada piscina terá sua própria seção, incluindo tabela e container de cards -->
                 </div>
             </div>
+            <!-- ----------- COMPARTILHAMENTOS ----------- -->
+            <div id="containerCompartilhamentos" class="col-12 mb-4 d-none">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Selecione um recurso</label>
+                        <select id="selectRecurso" class="form-control"></select>
+                    </div>
+                    <div class="col-md-6 text-right align-self-end">
+                        <button class="btn btn-primary" id="btnNovo">Novo Compartilhamento</button>
+                    </div>
+                </div>
+                <table class="table" id="tabelaCompartilhamentos">
+                    <thead>
+                        <tr><th>Usuário</th><th>Permissão</th><th>Ações</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <hr>
+                <h5>Recursos compartilhados comigo</h5>
+                <ul id="listaComigo"></ul>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Compartilhamento -->
+    <div class="modal fade" id="modalCompartilhar" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Compartilhamento</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="modalIdItem">
+                    <input type="hidden" id="modalTipoItem">
+                    <div class="form-group">
+                        <label for="destinoEmail">Usuário (e-mail)</label>
+                        <input type="email" class="form-control" id="destinoEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="destinoPermissao">Permissão</label>
+                        <select id="destinoPermissao" class="form-control">
+                            <option value="visualizar">Visualizar</option>
+                            <option value="editar">Editar</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarCompart">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Modal  Endereço-->
