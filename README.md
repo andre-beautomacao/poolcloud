@@ -1,4 +1,8 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-12] – Ajustes nos cards de parâmetros
+- Largura interna expandida em `.pool-card` reduzindo bordas laterais.
+- Maior espaçamento vertical entre os quadradinhos de parâmetros.
+- Slides mobile agora ocupam toda a altura para centralização vertical.
 ## 📅 [2025-07-11] – Correção de alinhamento mobile
 - `.swiper-slide` recebeu `padding` lateral e `box-sizing` para centralizar os slides sem afetar a largura dos cards.
 ## 📅 [2025-07-10] – Correção de largura no grid desktop
