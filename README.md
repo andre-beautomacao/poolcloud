@@ -1,4 +1,7 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-07] – Correção de navegação nas piscinas
+- Swiper das piscinas agora atualiza a barra de nome ao trocar de slide.
+- Configuração `slidesPerGroup` ajustada para 1 para navegação mais fluida.
 ## 📅 [2025-07-06] – Ajuste de padding nos cards
 - Ajuste no padding das colunas dos cards no mobile para evitar vazamento dos quadradinhos.
 ## 📅 [2025-07-05] – Compartilhamentos integrados
