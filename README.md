@@ -4,6 +4,7 @@
 - Corrigida montagem da consulta em `listar_dispositivos.php` quando não há `piscina_id`.
 
 
+
 Histórico de mudanças e atualizações no sistema PoolCloud.
 ## 📅 [2025-07-01] – Ajuste de margens nos cards de piscinas e dispositivos
 - Corrigido excesso de espaço à esquerda e estouro à direita dos quadradinhos internos.
