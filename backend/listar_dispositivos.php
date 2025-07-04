@@ -97,6 +97,8 @@ if (!$is_admin) {
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
     }
 
+    }
+
     $stmt->execute();
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
