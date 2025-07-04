@@ -1,8 +1,10 @@
 # 📝 CHANGELOG – PoolCloud
 
 Histórico de mudanças e atualizações no sistema PoolCloud.
+
 ## 📅 [2025-07-04] – Correção na listagem de dispositivos
 - Ajustada a associação do parâmetro `:usuario_id` apenas quando necessário.
+
 ## 📅 [2025-07-01] – Ajuste de margens nos cards de piscinas e dispositivos
 - Corrigido excesso de espaço à esquerda e estouro à direita dos quadradinhos internos.
 
