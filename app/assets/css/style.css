@@ -368,12 +368,13 @@ body.dark-theme .digital-card .digital-icon i[style*="#888"] { color: #777 !impo
     #dispositivosWrapper.swiper-wrapper,
     #enderecosWrapper.swiper-wrapper {
         display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
         gap: 28px 18px;
         justify-items: center;
         align-items: stretch;
         justify-content: center;
         width: 100% !important;
+        max-width: 1200px;
         margin: 0 auto !important;
         box-sizing: border-box;
         padding: 32px 12px !important;

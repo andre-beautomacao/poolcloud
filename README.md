@@ -1,4 +1,7 @@
 # 📝 CHANGELOG – PoolCloud
+## 📅 [2025-07-10] – Correção de largura no grid desktop
+- `#piscinasWrapper.swiper-wrapper` e similares agora têm `max-width` de 1200px
+  e colunas ajustadas para evitar espaços cinzas nas laterais.
 ## 📅 [2025-07-09] – Ajustes de layout no desktop
 - Padding vertical adicionado aos cards de parâmetros e dispositivos.
 - Grid dos cards centralizado com espaçamento lateral uniforme.
