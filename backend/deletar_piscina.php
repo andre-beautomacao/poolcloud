@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'db_connect.php'; // Inclui a conexão ao banco de dados
+require_once 'permissions.php';
 
 // Verifica se a sessão do usuário está ativa
 if (!isset($_SESSION['UsuarioID'])) {
@@ -10,13 +11,16 @@ if (!isset($_SESSION['UsuarioID'])) {
 
 if ($_POST) {
     if (isset($_POST['piscina_id'])) {
-        $piscina_id = $_POST['piscina_id'];
-        $proprietario_id = $_SESSION['UsuarioID']; // ID do usuário logado
+        $piscina_id = intval($_POST['piscina_id']);
+        $proprietario_id = $_SESSION['UsuarioID'];
 
-        // Verifica se a piscina pertence ao usuário logado
-        $stmt = $pdo->prepare("SELECT id, endereco_id FROM piscinas WHERE id = :piscina_id AND usuario_id = :proprietario_id");
+        if (!usuarioTemPermissao($pdo, $proprietario_id, 'piscina', $piscina_id, 'admin')) {
+            echo json_encode(['success' => false, 'message' => 'Permissão negada.']);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT id, endereco_id FROM piscinas WHERE id = :piscina_id");
         $stmt->bindParam(':piscina_id', $piscina_id);
-        $stmt->bindParam(':proprietario_id', $proprietario_id);
         $stmt->execute();
 
         // Se a piscina pertence ao usuário logado
